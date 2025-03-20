@@ -1,0 +1,54 @@
+@import url("../globalStyles/GlobalStyles.module.scss");
+.form-login {
+    display: flex;
+    flex-direction: column; // Sắp xếp các phần tử theo chiều dọc
+    align-items: center; // Căn giữa các input theo chiều ngang
+    gap: 10px; // Khoảng cách giữa các input
+    width: 100%; // Đảm bảo form chiếm toàn bộ chiều rộng
+    height: 100%;
+    background-color: var(--whitecolor);
+    padding: 20px; // Khoảng cách giữa form và nội dung bên trong
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ
+    gap: 20px; // Khoảng cách giữa các input
+    .input-user,
+    .input-password,
+    .login-btn {
+        width: 90%; // Độ rộng của input
+        height: 15%;
+        padding: 10px; // Tăng khoảng cách bên trong
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+    .login-btn {
+        background-color: var(--logocolor); // Màu xanh giống Facebook
+        color: var(--whitecolor);
+        font-weight: 600;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    a{
+        color: var(--logocolor);
+        text-decoration: none;
+        position: relative; // Để căn chỉnh pseudo-element chính xác
+    
+        &::after {
+            content: "";
+            display: block;
+            width: 100%; // Kéo dài theo input
+            height: 1px;
+            background-color: #ccc;
+            margin: 10px auto 0; // Cách trên 10px, căn giữa
+        }
+    }
+    .change-register-btn{
+        width: 50%;
+        height: 15%;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: var(--greencolor);
+        color: var(--whitecolor);
+        font-size: 15px;
+        font-weight: 600;
+    }
+  }

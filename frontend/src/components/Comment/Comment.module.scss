@@ -1,0 +1,16 @@
+@import url("../globalStyles/GlobalStyles.module.scss");
+.comment{
+    display: flex;
+    align-items: center;
+    .avatar{
+        width: 40px;
+        height: 40px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+    .comment-content{
+        background-color: var(--backgroundCommentLight);
+        padding: 10px;
+        border-radius: 10px;
+    }
+}

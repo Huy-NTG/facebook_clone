@@ -1,0 +1,80 @@
+@import url("../globalStyles/GlobalStyles.module.scss");
+.container-register-form{
+    width: 100%;
+    height: 100%;
+    .logo-title{
+        margin-bottom: 10px;
+        font-size: 65px;
+        color: var(--logocolor);
+        text-align: center;
+        font-weight: 700;
+        
+    }
+    .form-register{
+        display: flex;
+        flex-direction: column; // Sắp xếp các phần tử theo chiều dọc
+        align-items: center; // Căn giữa các input theo chiều ngang
+        gap: 10px; // Khoảng cách giữa các input
+        width: 100%; // Đảm bảo form chiếm toàn bộ chiều rộng
+        height: 100%;
+        background-color: var(--whitecolor);
+        padding: 20px; // Khoảng cách giữa form và nội dung bên trong
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ
+        gap: 20px; // Khoảng cách giữa các input
+   }
+   .register-title{
+        text-align: center;
+        &::after{
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+            margin: 10px auto 0;
+        }
+        
+        h1{
+            color: var(--blackcolor);
+            font-size: 25px;
+            line-height: 32px;
+        }
+        h3{
+            font-size: 15px;
+            line-height: 24px;
+            color: var(--texttitlecolor);
+            font-weight: 400;
+        }
+   }
+   .input-user,
+   .input-email,
+   .input-password {
+        width: 90%; // Độ rộng của input
+        height: 10%;
+        padding: 10px; // Tăng khoảng cách bên trong
+        border: 1px solid #ccc;
+        border-radius: 8px;
+   }
+   p{
+    color: #777;
+    font-size: 11px;
+    margin: 0 20px;
+   }
+   .register-btn{
+        width: 50%;
+        height: 10%;
+        padding: 10px; // Tăng khoảng cách bên trong
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: var(--greenboldcolor); // Màu xanh giống Facebook
+        color: var(--whitecolor);
+        font-weight: 600;
+        font-size: 20px;
+        cursor: pointer;
+   }
+   .change-login-btn{
+        color: var(--logocolor);
+        font-size: 20px;
+        text-align: center;
+   }
+}

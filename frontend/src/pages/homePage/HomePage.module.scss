@@ -1,0 +1,15 @@
+@import url('../../components/globalStyles/GlobalStyles.module.scss');
+.container-home{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.container-post{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+}

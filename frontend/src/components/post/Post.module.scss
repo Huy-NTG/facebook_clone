@@ -1,0 +1,72 @@
+.post {
+    position: relative; /* 🔥 Để các phần tử con có thể đặt absolute bên trong */
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    width: 100%;
+    height: 600px;
+    padding-bottom: 50px; /* 🔥 Tạo khoảng trống cho thanh tương tác */
+    .post-header{
+        display: flex;
+        align-items: center;
+        
+        .avatar{
+            width: 10%;
+            height: 10%;
+        }
+        .post-info-container{
+            .time {
+                font-size: 12px;
+                color: gray;
+                margin-top: 5px;
+            }
+        }
+    }
+    .post-image {
+        width: 100%;
+        max-height: 90%;
+        object-fit: cover;
+        margin-top: 10px;
+        border-radius: 8px;
+    }
+    /* 🔥 Cố định like-count ngay trên post-actions */
+    .like-count {
+        position: absolute;
+        bottom: 50px; /* 🔥 Giữ cách post-actions một khoảng */
+        width: 100%;
+        text-align: left;
+        font-weight: bold;
+        padding: 5px 0;
+        background-color: #fff;
+       
+    }
+    .post-actions {
+        position: absolute; /* 🔥 Giữ ở dưới cùng */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        background: white;
+        border-top: 1px solid #ddd;
+        .btn {
+            border: none;
+            background: none;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .liked {
+            color: blue;
+            font-weight: bold;
+        }
+    }
+}

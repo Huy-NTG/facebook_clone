@@ -1,0 +1,31 @@
+@import url('../../components/globalStyles/GlobalStyles.module.scss');
+.login-background{
+    width: 100vw;  // Chiều rộng toàn bộ màn hình
+    height: 100vh; // Chiều cao toàn bộ màn hình
+    display: flex;
+    justify-content: center; // Căn giữa theo chiều ngang
+    align-items: center; // Căn giữa theo chiều dọc
+    background-color: var(--background);
+    .login-title-container{
+        h1{
+            color: var(--logocolor);
+            font-size: 60px;
+        }
+        h3{
+            color: var(--textcolor);
+            font-size: 24px;
+            line-height: 28px;
+            width: auto;
+            font-weight: 400;
+        }
+    }
+    .login-container-form{
+        width: 30%;
+        height: 50%;
+    }
+    .container-register{
+        width: 30%;
+        height: 70%;
+        margin-bottom: 80px;
+    }
+}

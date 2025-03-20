@@ -1,0 +1,94 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1877f2;
+    padding: 10px 20px;
+    color: white;
+    position: sticky;
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      position: relative;
+      .logo {
+        font-size: 40px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .search-icon {
+        position: absolute;
+        left: 75px; // Dịch sang trái một chút
+        color: gray;
+        top: 15px;
+        font-size: 15px;
+      }
+  
+      input {
+        padding: 15px;
+        border: none;
+        border-radius: 50px;
+        width: 300px;
+        text-align: center;
+        font-size: 15px;
+      }
+    }
+  
+    .navbar-center {
+      display: flex;
+      gap: 50px;
+      width: 25%;
+      .nav-icon {
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .nav-icon:hover{
+        background-color: #4b4848;
+        opacity: 0.5;
+        border-radius: 8px;
+      }
+    }
+  
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      .user-name{
+        font-size: 20px;
+      }
+      .Notification-icon{
+        font-size: 35px;
+        padding: 5px;
+        border: solid 1px white;
+        border-radius: 20px;
+        cursor: pointer;
+        :hover{
+          background-color: #4b4848;
+          opacity: 0.5;
+          border-radius: 8px;
+        }
+      }
+      .chat-icon{
+        font-size: 35px;
+        padding: 5px;
+        border: solid 1px white;
+        border-radius: 20px;
+        cursor: pointer;
+        :hover{
+          background-color: #4b4848;
+          opacity: 0.5;
+          border-radius: 8px;
+        }
+      }
+      button {
+        background: #fff;
+        color: #1877f2;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+  
