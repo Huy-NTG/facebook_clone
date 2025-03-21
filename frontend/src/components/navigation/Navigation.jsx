@@ -52,7 +52,14 @@ const Navbar = ({ user }) => {
                 ) : (
                     <span>Đang tải...</span>
                 )}
-                <button onClick={() => localStorage.removeItem("user")}>Đăng xuất</button>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("user"); // Xóa user khỏi localStorage
+                    navigate("/login"); // Chuyển về trang login
+                  }}
+                >
+                  Đăng xuất
+                </button>
             </div>
       </nav>
     );

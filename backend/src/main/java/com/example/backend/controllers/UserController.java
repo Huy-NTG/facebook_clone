@@ -24,19 +24,11 @@ public class UserController {
         return ResponseEntity.badRequest().body(response);
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-    //     String response = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
-    //     if (response.equals("Đăng nhập thành công!")) {
-    //         return ResponseEntity.ok(response);
-    //     }
-    //     return ResponseEntity.status(401).body(response);
-    // }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("Received login request from: " + loginRequest.getUsername());
+        System.out.println("Received login request from: " + loginRequest.getEmail());
 
-        Map<String, Object> response = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        Map<String, Object> response = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
 
         if (response.containsKey("error")) {
             return ResponseEntity.status(401).body(response);

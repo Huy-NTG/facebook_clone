@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./PostingForm.module.scss";
 import { FaUserCircle } from "react-icons/fa"; // Import icon mặc định
@@ -9,17 +9,27 @@ import PostModal from "../postModal/PostModal";
 // eslint-disable-next-line react/prop-types
 const PostingForm = ({ user }) => {
     const [showForm, setShowForm] = useState(false); // Trạng thái hiển thị form
+    // eslint-disable-next-line no-unused-vars
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setCurrentUser(JSON.parse(storedUser));
+        }
+    }, []);
     return (
         <div className={cx("container-posting-form")}>
             <div className={cx("posting-form")}>
                 <div className={cx("posting-form-left")}>
-                    {user?.avatar ? (
+                    {currentUser?.avatarUrl ? (
                         <img
-                            src={user.avatar}
+                            src={`http://localhost:8080/uploads/${currentUser.avatarUrl}`} // API backend
                             alt="avatar"
+                            className={cx("avatar")}
                             onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.style.display = "none";
+                                e.target.src = "/assets/img/icons8-user-default-64.png"; // Ảnh mặc định
                             }}
                         />
                     ) : (

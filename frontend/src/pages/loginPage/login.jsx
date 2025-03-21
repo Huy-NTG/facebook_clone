@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 const Login = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false); // Kiểm soát hiển thị đăng ký / đăng nhập
   const navigate = useNavigate(); // Hook dùng để chuyển trang
+
   const handleLogin = async (formData) => {
-    console.log("Dữ liệu gửi lên:", formData);
+    setLoading(true); // Bắt đầu loading
     try {
       const response = await axios.post("http://localhost:8080/auth/login", formData, {
         withCredentials: true,
@@ -19,37 +22,35 @@ const Login = () => {
           "Content-Type": "application/json"
         }
       });
-
-      const userData = response.data; // Nhận dữ liệu từ backend
-      console.log("Dữ liệu nhận được:", userData);
-
-      // Lưu thông tin người dùng vào localStorage
+  
+      const userData = response.data;
       localStorage.setItem("user", JSON.stringify(userData));
-
-      // Chuyển hướng đến trang HomePage
       navigate("/homepage");
-
-    // eslint-disable-next-line no-unused-vars
+  
     } catch (error) {
-      alert("Đăng nhập thất bại!");
+      alert(error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.");
+    } finally {
+      setLoading(false); // Dừng loading
     }
   };
-
+  
   const handleRegister = async (formData) => {
     try {
-      axios.post("http://localhost:8080/auth/register", formData, {
+      const response = await axios.post("http://localhost:8080/auth/register", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"
         }
-      })
-      .then(response => console.log(response.data))
-    // eslint-disable-next-line no-unused-vars
+      });
+  
+      console.log("Đăng ký thành công:", response.data);
+      alert("Đăng ký thành công! Hãy đăng nhập.");
+      setIsRegistering(false); // Quay lại trang đăng nhập
+  
     } catch (error) {
-      alert("Đăng ký thất bại! Vui lòng thử lại.");
+      alert(error.response?.data?.message || "Đăng ký thất bại! Vui lòng thử lại.");
     }
   };
-
   return (
     <div className={cx("login-background")}>
       {isRegistering ? (

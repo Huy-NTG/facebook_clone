@@ -9,6 +9,7 @@ const Post = ({ post }) => {
     const [likes, setLikes] = useState(0); // Số lượt thích
     const [isLiked, setIsLiked] = useState(false); // Trạng thái đã thích
     const [showComments, setShowComments] = useState(false); // Ẩn/hiện bình luận
+    
     const handleLike = () => {
         setLikes(isLiked ? likes - 1 : likes + 1);
         setIsLiked(!isLiked);

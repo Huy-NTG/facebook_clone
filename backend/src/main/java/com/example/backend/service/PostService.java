@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final String UPLOAD_DIR = "uploads/";
+    // private final String UPLOAD_DIR = "uploads/";
 
     public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
