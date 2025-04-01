@@ -1,0 +1,17 @@
+@import url("../globalStyles/GlobalStyles.module.scss");
+.friend-list {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    h2 {
+       
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--texttitlecolor);
+        margin-bottom: 15px;
+        text-align: left;
+    }
+}

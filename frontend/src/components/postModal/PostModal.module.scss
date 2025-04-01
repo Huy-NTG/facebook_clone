@@ -1,5 +1,6 @@
 @import url("../globalStyles/GlobalStyles.module.scss");
 .overlay {
+    z-index: 9;
     position: fixed;
     top: 0;
     left: 0;

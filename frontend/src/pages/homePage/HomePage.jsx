@@ -6,6 +6,7 @@ import axios from "axios";
 import Navbar from "../../components/navigation/Navigation";
 import Postingfrom from "../../components/postingForm/PostingForm";
 import PostList from "../../components/ContainerPost/ContainerPost";
+import FriendList from "../../components/ListFriends/ListFriends";
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
@@ -25,16 +26,26 @@ const HomePage = () => {
   
     return (
       <>
-       {/* Truyền user vào Navbar */}
-       <Navbar user={user} />
-         <div className={cx("container-home")}>
-            <Postingfrom user={user} />
-         </div>
-         {/* Hiển thị danh sách bài viết */}
-         <div className={cx("container-post")}>
-            <PostList />
-         </div>
-      </>
+            {/* Navbar */}
+            <Navbar user={user} />
+
+            {/* Form đăng bài */}
+            <div className={cx("container-home")}>
+                <Postingfrom user={user} />
+            </div>
+
+            {/* Bố cục bài viết + danh sách bạn bè */}
+            <div className={cx("container-content")}>
+                {/* Danh sách bài viết */}
+                <div className={cx("container-post")}>
+                    <PostList />
+                </div>
+                {/* Danh sách bạn bè */}
+                <div className={cx("container-friends")}>
+                    <FriendList />
+                </div>
+            </div>
+        </>
     );
   };
 

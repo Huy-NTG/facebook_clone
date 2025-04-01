@@ -1,15 +1,31 @@
 @import url('../../components/globalStyles/GlobalStyles.module.scss');
-.container-home{
+
+.container-home {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
-.container-post{
+
+.container-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+    justify-content: center; /* Căn giữa nội dung chính */
+    align-items: flex-start;
+    //gap: 20px; /* Khoảng cách giữa danh sách bài viết và danh sách bạn bè */
     width: 100%;
-    height: auto;
+    margin: auto;
+    .container-post {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       // max-width: 600px; /* Định nghĩa chiều rộng tối đa */
+        margin-left: 330px;
+    }
+    .container-friends {
+        width: 30%;
+       
+        //border: solid 1px red;
+    }
 }

@@ -1,0 +1,45 @@
+@import url('../../components/globalStyles/GlobalStyles.module.scss');
+.friend-card{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    padding: 5px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    &:hover{
+        cursor: pointer;
+        background-color: var(--hovercolor);
+    }
+    .avatar{
+        margin: 5px 0px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+        object-fit: cover;
+        transition: transform 0.2s ease;
+    }
+    .friend-info{
+        .friend-name{
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--textcolor); 
+        }
+        .message-btn{
+            background-color: var(--logocolor);
+            color: var(--whitecolor);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+            transition: background 0.3s ease;
+            &:hover{
+                background-color: var(--logocolor);
+            }
+        }
+    }
+}

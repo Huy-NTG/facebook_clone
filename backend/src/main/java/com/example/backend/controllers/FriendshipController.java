@@ -4,13 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.example.backend.model.Friendship;
 import com.example.backend.model.User;
 import com.example.backend.service.FriendshipService;
 
@@ -22,20 +18,36 @@ public class FriendshipController {
 
     // Gửi lời mời kết bạn
     @PostMapping("/request")
-    public ResponseEntity<?> sendFriendRequest(@RequestParam Long senderId, @RequestParam Long receiverId) {
-        return ResponseEntity.ok(friendshipService.sendFriendRequest(senderId, receiverId));
+    public ResponseEntity<Friendship> sendFriendRequest(@RequestParam Long senderId, @RequestParam Long receiverId) {
+        Friendship friendship = friendshipService.sendFriendRequest(senderId, receiverId);
+        return ResponseEntity.ok(friendship);
     }
 
     // Chấp nhận lời mời kết bạn
-    @PostMapping("/accept")
-    public ResponseEntity<?> acceptFriendRequest(@RequestParam Long requestId) {
-        return ResponseEntity.ok(friendshipService.acceptFriendRequest(requestId));
+    @PostMapping("/{requestId}/accept")
+    public ResponseEntity<Friendship> acceptFriendRequest(@PathVariable Long requestId) {
+        Friendship friendship = friendshipService.acceptFriendRequest(requestId);
+        return ResponseEntity.ok(friendship);
     }
 
-    // Lấy danh sách bạn bè
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<User>> getFriends(@PathVariable Long userId) {
-        return ResponseEntity.ok(friendshipService.getFriends(userId));
+    // Từ chối lời mời kết bạn
+    @PostMapping("/{requestId}/reject")
+    public ResponseEntity<String> rejectFriendRequest(@PathVariable Long requestId) {
+        friendshipService.rejectFriendRequest(requestId);
+        return ResponseEntity.ok("Lời mời kết bạn đã bị từ chối.");
     }
+
+     // Lấy danh sách bạn bè của một người
+     @GetMapping("/{userId}")
+     public ResponseEntity<List<User>> getFriends(@PathVariable Long userId) {
+         List<User> friends = friendshipService.getFriends(userId);
+         return ResponseEntity.ok(friends);
+     }
+     // API lấy danh sách lời mời kết bạn đang chờ xác nhận
+    @GetMapping("/{userId}/pending-requests")
+    public ResponseEntity<List<User>> getPendingFriendRequests(@PathVariable Long userId) {
+        List<User> pendingRequests = friendshipService.getPendingFriendRequests(userId);
+        return ResponseEntity.ok(pendingRequests);
+    }
+
 }
-
