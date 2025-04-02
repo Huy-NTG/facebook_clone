@@ -66,10 +66,10 @@ public class FriendshipService {
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
         List<Friendship> pendingRequests = friendshipRepository.findByUser2AndStatus(user, FriendshipStatus.PENDING);
         //Log danh sách bạn bè tìm được
-        System.out.println("Danh sách bạn bè đã chấp nhận của userId " + userId + ":");
-        for (Friendship f : pendingRequests) {
-            System.out.println("ID: " + f.getId() + " | User1: " + f.getUser1().getId() + " | User2: " + f.getUser2().getId() + " | Status: " + f.getStatus());
-        }
+        // System.out.println("Danh sách bạn bè đã chấp nhận của userId " + userId + ":");
+        // for (Friendship f : pendingRequests) {
+        //     System.out.println("ID: " + f.getId() + " | User1: " + f.getUser1().getId() + " | User2: " + f.getUser2().getId() + " | Status: " + f.getStatus());
+        // }
         return pendingRequests.stream()
                 .map(Friendship::getUser1) // Lấy danh sách những người gửi lời mời
                 .collect(Collectors.toList());

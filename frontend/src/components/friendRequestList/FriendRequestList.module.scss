@@ -1,55 +1,14 @@
-.friend-request-list {
+@import url('../../components/globalStyles/GlobalStyles.module.scss');
+.friend-request-list{
     width: 100%;
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 10px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .friend-request {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  
-    .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 10px;
+    margin-top: 20px;
+    h2{
+      margin-left: 10px;
     }
-  
-    .request-info {
-      flex: 1;
-      p {
-        font-weight: bold;
-        margin: 0;
-      }
-  
-      .request-actions {
-        display: flex;
-        gap: 10px;
-        
-        button {
-          padding: 5px 10px;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-  
-        .accept-btn {
-          background: #1877f2;
-          color: white;
-          border: none;
-        }
-  
-        .reject-btn {
-          background: #f02849;
-          color: white;
-          border: none;
-        }
-      }
+    .friend-request-container{
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); // 5 cột trên mỗi hàng
+      gap: 15px;
+      padding: 10px;
     }
-  }
-  
+}

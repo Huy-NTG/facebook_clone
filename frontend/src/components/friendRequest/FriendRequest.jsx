@@ -23,7 +23,7 @@ const FriendRequest = ({ request, onAccept, onReject }) => {
   return (
     <div className={cx("friend-request")}>
       <img 
-        src={request.avatarUrl ? `/images/${request.avatarUrl}` : "/default-avatar.png"} 
+        src={request.avatarUrl ? `http://localhost:8080/uploads/${request.avatarUrl}` : "/assets/img/icons8-user-default-64.png"} 
         alt="Avatar" 
         className={cx("avatar")} 
       />
@@ -31,10 +31,10 @@ const FriendRequest = ({ request, onAccept, onReject }) => {
         <p>{request.fullName}</p>
         <div className={cx("request-actions")}>
           <button onClick={handleAccept} disabled={loading} className={cx("accept-btn")}>
-            ✅ Chấp nhận
+             Xác nhận
           </button>
           <button onClick={handleReject} disabled={loading} className={cx("reject-btn")}>
-            ❌ Từ chối
+             Xóa
           </button>
         </div>
       </div>

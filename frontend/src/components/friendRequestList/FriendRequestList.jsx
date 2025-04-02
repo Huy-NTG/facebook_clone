@@ -41,6 +41,7 @@ const FriendRequestList = () => {
   return (
     <div className={cx("friend-request-list")}>
       <h2>Lời mời kết bạn</h2>
+      <div className={cx("friend-request-container")}>
       {requests.length > 0 ? (
         requests.map((req) => (
           <FriendRequest key={req.id} request={req} onAccept={handleAccept} onReject={handleReject} />
@@ -48,6 +49,7 @@ const FriendRequestList = () => {
       ) : (
         <p>Không có lời mời kết bạn nào</p>
       )}
+      </div>
     </div>
   );
 };
