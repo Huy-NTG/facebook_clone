@@ -1,12 +1,14 @@
 package com.example.backend.service;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.dto.PendingRequestDTO;
 import com.example.backend.model.Friendship;
 import com.example.backend.model.FriendshipStatus;
 import com.example.backend.model.User;
@@ -61,17 +63,27 @@ public class FriendshipService {
         friendshipRepository.delete(friendship);
     }
     // Lấy danh sách lời mời kết bạn đang chờ xác nhận
-    public List<User> getPendingFriendRequests(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
-        List<Friendship> pendingRequests = friendshipRepository.findByUser2AndStatus(user, FriendshipStatus.PENDING);
-        //Log danh sách bạn bè tìm được
-        // System.out.println("Danh sách bạn bè đã chấp nhận của userId " + userId + ":");
-        // for (Friendship f : pendingRequests) {
-        //     System.out.println("ID: " + f.getId() + " | User1: " + f.getUser1().getId() + " | User2: " + f.getUser2().getId() + " | Status: " + f.getStatus());
-        // }
-        return pendingRequests.stream()
-                .map(Friendship::getUser1) // Lấy danh sách những người gửi lời mời
-                .collect(Collectors.toList());
-    }
+    public List<PendingRequestDTO> getPendingFriendRequests(Long userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
+
+    List<Friendship> pendingRequests = friendshipRepository.findByUser2AndStatus(user, FriendshipStatus.PENDING);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    return pendingRequests.stream()
+            .map(friendship -> {
+                User sender = friendship.getUser1();
+                return new PendingRequestDTO(
+                        friendship.getId(),
+                        sender.getId(),
+                        sender.getUsername(),
+                        sender.getEmail(),
+                        sender.getFullName(),
+                        sender.getAvatarUrl(),
+                        sender.getCreatedAt().format(formatter)
+                );
+            })
+            .collect(Collectors.toList());
+        }
 }

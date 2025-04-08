@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.backend.dto.PendingRequestDTO;
 import com.example.backend.model.Friendship;
 import com.example.backend.model.User;
 import com.example.backend.service.FriendshipService;
@@ -45,9 +46,8 @@ public class FriendshipController {
      }
      // API lấy danh sách lời mời kết bạn đang chờ xác nhận
     @GetMapping("/{userId}/pending-requests")
-    public ResponseEntity<List<User>> getPendingFriendRequests(@PathVariable Long userId) {
-        List<User> pendingRequests = friendshipService.getPendingFriendRequests(userId);
+    public ResponseEntity<List<PendingRequestDTO>> getPendingFriendRequests(@PathVariable Long userId) {
+        List<PendingRequestDTO> pendingRequests = friendshipService.getPendingFriendRequests(userId);
         return ResponseEntity.ok(pendingRequests);
     }
-
 }

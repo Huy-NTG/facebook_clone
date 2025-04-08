@@ -6,7 +6,7 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
     width: 100%;
-    height: 600px;
+    height: auto;
     padding-bottom: 50px; /* 🔥 Tạo khoảng trống cho thanh tương tác */
     .post-header{
         display: flex;
@@ -25,15 +25,19 @@
         }
     }
     .post-image {
+        display: block;
         width: 100%;
         max-height: 90%;
         object-fit: cover;
         margin-top: 10px;
         border-radius: 8px;
     }
+    .hidden {
+        display: none;
+    }
     /* 🔥 Cố định like-count ngay trên post-actions */
     .like-count {
-        position: absolute;
+       // position: absolute; chú ý dòng này khi scss cho phần post chỉ có nội dung mà không có ảnh
         bottom: 50px; /* 🔥 Giữ cách post-actions một khoảng */
         width: 100%;
         text-align: left;
