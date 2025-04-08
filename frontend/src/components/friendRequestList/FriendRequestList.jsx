@@ -16,36 +16,40 @@ const FriendRequestList = () => {
       .catch((error) => console.error("Lỗi khi lấy danh sách lời mời:", error));
   }, [userId]);
 
-  const handleAccept = async (requestId) => {
+  const handleAccept = async (friendshipId) => {
     try {
-      await fetch(`http://localhost:8080/api/friend-requests/${requestId}/accept`, {
+      await fetch(`http://localhost:8080/api/friends/${friendshipId}/accept`, {
         method: "POST",
       });
-      setRequests(requests.filter((req) => req.id !== requestId));
+      setRequests(requests.filter((req) => req.friendshipId !== friendshipId));
     } catch (error) {
       console.error("Lỗi khi chấp nhận lời mời:", error);
     }
   };
 
-  const handleReject = async (requestId) => {
-    try {
-      await fetch(`http://localhost:8080/api/friend-requests/${requestId}/reject`, {
-        method: "POST",
-      });
-      setRequests(requests.filter((req) => req.id !== requestId));
-    } catch (error) {
-      console.error("Lỗi khi từ chối lời mời:", error);
-    }
+const handleReject = async (friendshipId) => {
+  try {
+    await fetch(`http://localhost:8080/api/friends/${friendshipId}/reject`, {
+      method: "POST",
+    });
+    setRequests(requests.filter((req) => req.friendshipId !== friendshipId));
+  } catch (error) {
+    console.error("Lỗi khi từ chối lời mời:", error);
+   }
   };
-
   return (
     <div className={cx("friend-request-list")}>
       <h2>Lời mời kết bạn</h2>
       <div className={cx("friend-request-container")}>
       {requests.length > 0 ? (
         requests.map((req) => (
-          <FriendRequest key={req.id} request={req} onAccept={handleAccept} onReject={handleReject} />
-        ))
+        <FriendRequest
+          key={req.friendshipId}
+          request={req}
+          onAccept={() => handleAccept(req.friendshipId)}
+          onReject={() => handleReject(req.friendshipId)}
+        />
+      ))
       ) : (
         <p>Không có lời mời kết bạn nào</p>
       )}

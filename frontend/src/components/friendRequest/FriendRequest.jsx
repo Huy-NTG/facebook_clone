@@ -29,6 +29,7 @@ const FriendRequest = ({ request, onAccept, onReject }) => {
       />
       <div className={cx("request-info")}>
         <p>{request.fullName}</p>
+        <p>{request.id}</p>
         <div className={cx("request-actions")}>
           <button onClick={handleAccept} disabled={loading} className={cx("accept-btn")}>
              Xác nhận

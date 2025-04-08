@@ -5,19 +5,14 @@ import classNames from "classnames/bind";
 import styles from './Navigation.module.scss';
 import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
-
-
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ user }) => {
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
-
-  
     const handleSearch = (e) => {
       e.preventDefault();
       alert(`Tìm kiếm: ${search}`);
     };
-  
     return (
       <nav className={cx("navbar")}>
         {/* Logo */}
@@ -37,10 +32,8 @@ const Navbar = ({ user }) => {
         <div className={cx("navbar-center")}>
           <FaHome className={cx("nav-icon")} onClick={() => navigate("/homepage")} />
           <FaUserFriends className={cx("nav-icon")} onClick={() => navigate("/friendpage")} />
-          
           <FaBars className={cx("nav-icon")} />
         </div>
-  
         {/* Avatar người dùng */}
         <div className={cx("navbar-right")}>
                 <FaFacebookMessenger className={cx("chat-icon")}/>
@@ -48,7 +41,6 @@ const Navbar = ({ user }) => {
                 {user ? (
                     // eslint-disable-next-line react/prop-types
                     <span className={cx("user-name")}>{user.username}</span>
-                    
                 ) : (
                     <span>Đang tải...</span>
                 )}
@@ -64,5 +56,4 @@ const Navbar = ({ user }) => {
       </nav>
     );
   };
-  
   export default Navbar;
