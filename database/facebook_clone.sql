@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2025 at 04:15 AM
+-- Generation Time: Apr 13, 2025 at 07:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,9 +31,20 @@ CREATE TABLE `comments` (
   `id` bigint(20) NOT NULL,
   `post_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `content` text NOT NULL,
+  `content` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `post_id`, `user_id`, `content`, `created_at`) VALUES
+(1, 3, 1, 'đây là post test', '2025-03-17 04:22:19'),
+(2, 4, 1, 'It\'s so Beautyfull', '2025-03-17 04:23:08'),
+(3, 4, 1, 'Nice picture!!!', '2025-03-17 16:32:32'),
+(4, 3, 1, 'Post test đầu tiên!', '2025-03-19 14:53:52'),
+(5, 4, 2, 'This is nature!!', '2025-03-19 15:25:49');
 
 -- --------------------------------------------------------
 
@@ -49,6 +60,15 @@ CREATE TABLE `friendships` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `friendships`
+--
+
+INSERT INTO `friendships` (`id`, `user1_id`, `user2_id`, `status`, `created_at`) VALUES
+(1, 1, 2, 'ACCEPTED', '2025-03-19 16:51:42'),
+(2, 1, 3, 'ACCEPTED', '2025-03-23 11:32:08'),
+(3, 2, 3, 'ACCEPTED', '2025-03-23 14:38:25');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +81,16 @@ CREATE TABLE `likes` (
   `user_id` bigint(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `likes`
+--
+
+INSERT INTO `likes` (`id`, `post_id`, `user_id`, `created_at`) VALUES
+(1, 4, 2, '2025-04-06 04:30:57'),
+(3, 6, 1, '2025-04-06 04:36:37'),
+(14, 5, 3, '2025-04-07 02:56:27'),
+(19, 6, 3, '2025-04-07 03:38:06');
 
 -- --------------------------------------------------------
 
@@ -85,10 +115,20 @@ CREATE TABLE `messages` (
 CREATE TABLE `posts` (
   `id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `content` text NOT NULL,
+  `content` varchar(255) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `user_id`, `content`, `image_url`, `created_at`) VALUES
+(3, 1, 'test', '1741963649997_Screenshot_2025-03-10_224543.png', '2025-03-14 14:47:30'),
+(4, 1, 'mùa thu đẹp', '1742060945132_muathutrongrung.jpg', '2025-03-15 17:49:05'),
+(5, 1, 'cơm', '1743048411353_Screenshot_2025-03-10_224821.png', '2025-03-27 04:06:51'),
+(6, 3, 'Đây là Post test chữ đầu tiên', NULL, '2025-04-05 02:03:25');
 
 -- --------------------------------------------------------
 
@@ -102,8 +142,22 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `avatar_url` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `bio` text DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `gender` enum('MALE','FEMALE','OTHER') DEFAULT NULL,
+  `role` enum('USER','ADMIN') NOT NULL DEFAULT 'USER',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `avatar_url`, `bio`, `birthday`, `gender`, `role`, `created_at`, `username`) VALUES
+(1, 'John Doe', 'johndoe2@gmail.com', '$2a$10$CWcRrRDwRMnhaHsDg0vyDuNVRPfbWN1AmVRZhRyqqsTLmgcjjeQ7q', 'user_1.png', 'Hi! I\'m First user', '2004-07-14', 'FEMALE', 'USER', '2025-03-06 03:21:23', 'john doe'),
+(2, 'Nguyen Huy', 'NguyenHuy@gmail.com', '$2a$10$K8ATlHkaUcDY0LgsCgZh8.F.8OydlEjv00q6mQjh24./aqURmvsea', 'warning.jpg', 'Im\'President', '2004-04-15', 'MALE', 'ADMIN', '2025-03-19 15:17:33', 'Nguyen Huy'),
+(3, 'Trí Viễn', 'Mwg2004@gmail.com', '$2a$10$CfhahwTvCtez8e5RFVtA1.lUraXn/m8N2iznJcuOLr9XF5x5SDqIq', 'user_1.png', 'Friend\'s President', '2025-04-02', 'OTHER', 'USER', '2025-03-20 16:56:42', 'Trí Viễn');
 
 --
 -- Indexes for dumped tables
@@ -153,7 +207,8 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -163,19 +218,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -187,13 +242,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

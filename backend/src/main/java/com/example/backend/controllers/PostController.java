@@ -73,4 +73,10 @@ public class PostController {
             return ResponseEntity.status(500).body(Map.of("error", "Lỗi khi đăng bài: " + e.getMessage()));
         }
     }
+    // 📌 Lấy tất cả bài viết của một người dùng dựa trên userId
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostResponse>> getPostsByUserId(@PathVariable Long userId) {
+        List<PostResponse> posts = postService.getPostsByUserId(userId);
+        return ResponseEntity.ok(posts);
+    }
 }
