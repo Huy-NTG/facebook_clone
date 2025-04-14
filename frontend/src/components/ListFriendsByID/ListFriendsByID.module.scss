@@ -1,0 +1,55 @@
+.friend-list-container {
+    margin: 20px 0;
+    .title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      .friend-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); // 3 cột
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        gap: 20px;
+        .friend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            &:hover {
+                transform: translateY(-5px);
+            }
+            .avatar {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            .username {
+                margin-top: 10px;
+                font-size: 14px;
+                font-weight: bold;
+              }
+          }
+      }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

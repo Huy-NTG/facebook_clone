@@ -62,4 +62,8 @@ public class UserService {
         response.put("error", "Sai tên đăng nhập hoặc mật khẩu");
         return response;
     }
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+    
 }

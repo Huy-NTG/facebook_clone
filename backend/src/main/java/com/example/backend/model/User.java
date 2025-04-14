@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -36,4 +37,24 @@ public class User {
     private String avatarUrl; // 👈 Nếu bạn có cột avatar_url
 
     private LocalDateTime createdAt = LocalDateTime.now(); // 👈 Nếu có cột created_at
+    // 👇 Các trường mới thêm vào:
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+
+    private LocalDate birthday;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
+    public enum Gender {
+        MALE, FEMALE, OTHER
+    }
+
+    public enum Role {
+        USER, ADMIN
+    }
 }

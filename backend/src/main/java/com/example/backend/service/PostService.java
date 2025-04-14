@@ -65,4 +65,22 @@ public class PostService {
         post.setImageUrl(imageUrl);
         return postRepository.save(post);
     }
+    // lây danh sách bài viết của người dùng theo id
+    public List<PostResponse> getPostsByUserId(Long userId) {
+        List<Post> posts = postRepository.findByUserId(userId);
+    
+        return posts.stream().map(post -> {
+            User user = userRepository.findById(post.getUserId()).orElse(null);
+            return new PostResponse(
+                post.getId(),
+                post.getUserId(),
+                user != null ? user.getFullName() : "Người dùng không tồn tại",
+                user != null ? user.getAvatarUrl() : null,
+                post.getContent(),
+                post.getImageUrl(),
+                post.getCreatedAt()
+            );
+        }).collect(Collectors.toList());
+    }
+    
 }

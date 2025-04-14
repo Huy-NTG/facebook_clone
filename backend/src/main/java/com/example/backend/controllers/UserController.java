@@ -14,7 +14,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody User user) {
         String response = userService.register(user);
@@ -23,17 +22,19 @@ public class UserController {
         }
         return ResponseEntity.badRequest().body(response);
     }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         System.out.println("Received login request from: " + loginRequest.getEmail());
-
         Map<String, Object> response = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-
         if (response.containsKey("error")) {
             return ResponseEntity.status(401).body(response);
         }
-
         return ResponseEntity.ok(response);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        return userService.findById(id)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

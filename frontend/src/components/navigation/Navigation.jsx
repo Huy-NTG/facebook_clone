@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 import { useState } from "react";
-import { FaFacebook, FaBell, FaUserFriends, FaBars, FaSearch, FaHome, FaFacebookMessenger } from "react-icons/fa";
+import { FaFacebook, FaBell, FaUserFriends, FaBars, FaSearch, FaHome, FaFacebookMessenger, FaHouseUser } from "react-icons/fa";
 import classNames from "classnames/bind";
 import styles from './Navigation.module.scss';
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ const Navbar = ({ user }) => {
         <div className={cx("navbar-center")}>
           <FaHome className={cx("nav-icon")} onClick={() => navigate("/homepage")} />
           <FaUserFriends className={cx("nav-icon")} onClick={() => navigate("/friendpage")} />
+          <FaHouseUser className={cx("nav-icon")} onClick={() => navigate("/profilepage")} />
           <FaBars className={cx("nav-icon")} />
         </div>
         {/* Avatar người dùng */}
