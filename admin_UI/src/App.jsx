@@ -12,7 +12,7 @@ function App() {
 
   return (
       <BrowserRouter>
-        <div className='flex'>
+        <div className='flex bg-zinc-200'>
             <Siderbar />
             <Routes>
             <Route path="/" element={<h1>Home</h1>} />

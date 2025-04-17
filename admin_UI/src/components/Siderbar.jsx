@@ -23,7 +23,7 @@ export default function Siderbar() {
     const toggleButtonClass = isOpen ? 'rotate-180' : '';
     const sidebarWidth = isOpen ? 'w-64' : 'w-16';
   return (
-    <div>
+    <div className='bg-blue-200'>
         <div className={`${isOpen ? "w-64" : "w-20"} flex flex-col h-screen py-3 shadow-lg duration-300 overflow-hidden relative`}>
             <h1 className="text-2xl pl-7 font-bold mb-16 flex items-center gap-2"><FacebookOutlinedIcon fontSize="large" /> {isOpen ? "Dashboard" : ""}</h1>
             <button
