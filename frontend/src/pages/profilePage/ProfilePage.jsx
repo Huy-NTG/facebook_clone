@@ -2,6 +2,8 @@ import Navbar from "../../components/navigation/Navigation";
 import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 import ListFriendsByID from "../../components/ListFriendsByID/ListFriendsByID";
 import PostList from "../../components/ContainerPost/ContainerPost";
+import PostingForm from "../../components/postingForm/PostingForm";
+import InfoContainer from "../../components/InfoContainer/InfoContainer";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -45,12 +47,13 @@ const Profilepage = () => {
       <ProfileHeader userId={user.id} />
       <div className={cx("container_friend_and_post")}>
         <div className={cx("container_friend_ and_ profile")}>
+          <InfoContainer userId={user.id}/>
           <ListFriendsByID userId={user.id} />
         </div>
         <div className={cx("container_post")}>
-          <PostList userId={user.id} />
+         <PostingForm variant="profile" />
+         <PostList userId={user.id} />
         </div>
-        
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./PostingForm.module.scss";
@@ -7,9 +8,9 @@ import { FaVideo, FaImage, FaSmile } from "react-icons/fa"; // Import các icon
 const cx = classNames.bind(styles);
 import PostModal from "../postModal/PostModal";
 // eslint-disable-next-line react/prop-types
-const PostingForm = ({ user }) => {
+const PostingForm = ({ user, variant = "home" }) => {
     const [showForm, setShowForm] = useState(false); // Trạng thái hiển thị form
-    // eslint-disable-next-line no-unused-vars
+    
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const PostingForm = ({ user }) => {
         }
     }, []);
     return (
-        <div className={cx("container-posting-form")}>
+        <div className={cx("container-posting-form", variant)}>
             <div className={cx("posting-form")}>
                 <div className={cx("posting-form-left")}>
                     {currentUser?.avatarUrl ? (
