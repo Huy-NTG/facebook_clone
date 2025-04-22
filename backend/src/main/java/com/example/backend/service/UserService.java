@@ -5,9 +5,11 @@ import com.example.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
+
 @Service
 public class UserService {
 
@@ -23,29 +25,28 @@ public class UserService {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return "Username đã tồn tại!";
         }
-    
+
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return "Email đã tồn tại!";
         }
-    
+
         // Nếu username không có, đặt username = email
         if (user.getUsername() == null || user.getUsername().isBlank()) {
             user.setUsername(user.getFullName());
         }
-    
+
         // Nếu avatarUrl không có, đặt ảnh mặc định
         if (user.getAvatarUrl() == null || user.getAvatarUrl().isBlank()) {
             user.setAvatarUrl("user_1.jpg");
         }
-    
+
         // Mã hóa mật khẩu trước khi lưu
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-    
+
         userRepository.save(user);
-    
+
         return "Đăng ký thành công!";
     }
-    
 
     public Map<String, Object> login(String email, String rawPassword) {
         Optional<User> user = userRepository.findByEmail(email);
@@ -62,8 +63,13 @@ public class UserService {
         response.put("error", "Sai tên đăng nhập hoặc mật khẩu");
         return response;
     }
+
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
-    
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
 }
