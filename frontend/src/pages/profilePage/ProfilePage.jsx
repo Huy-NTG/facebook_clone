@@ -14,20 +14,18 @@ const cx = classNames.bind(styles);
 
 const Profilepage = () => {
   const [user, setUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null); // ✅ thêm state
   const navigate = useNavigate();
   const { id: paramId } = useParams(); // lấy id từ URL nếu có
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
     if (!storedUser) {
       navigate("/");
       return;
     }
-
-    const loggedInUser = JSON.parse(storedUser);
-    const targetUserId = paramId || loggedInUser.id;
-
+    const parsedUser = JSON.parse(storedUser);
+    setLoggedInUser(parsedUser); // ✅ lưu user đăng nhập vào state
+    const targetUserId = paramId || parsedUser.id;
     axios
       .get(`http://localhost:8080/auth/${targetUserId}`)
       .then((res) => {
@@ -38,12 +36,10 @@ const Profilepage = () => {
         navigate("/");
       });
   }, [navigate, paramId]);
-
-  if (!user) return <p>Đang tải dữ liệu...</p>;
-
+  if (!user || !loggedInUser) return <p>Đang tải dữ liệu...</p>;
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={loggedInUser} />
       <ProfileHeader userId={user.id} />
       <div className={cx("container_friend_and_post")}>
         <div className={cx("container_friend_ and_ profile")}>
@@ -51,7 +47,12 @@ const Profilepage = () => {
           <ListFriendsByID userId={user.id} />
         </div>
         <div className={cx("container_post")}>
-         <PostingForm variant="profile" />
+        {/* ✅ Chỉ hiển thị nếu là người dùng hiện tại */}
+        {loggedInUser.id === user.id && (
+            <div className={cx("change_profile_btn")}>
+              <PostingForm variant="profile" />
+            </div>
+          )}
          <PostList userId={user.id} />
         </div>
       </div>

@@ -50,4 +50,17 @@ public class FriendshipController {
         List<PendingRequestDTO> pendingRequests = friendshipService.getPendingFriendRequests(userId);
         return ResponseEntity.ok(pendingRequests);
     }
+    // Hủy kết bạn
+    @DeleteMapping("/unfriend")
+    public ResponseEntity<String> unfriend(@RequestParam Long userId1, @RequestParam Long userId2) {
+        friendshipService.unfriend(userId1, userId2);
+        return ResponseEntity.ok("Đã hủy kết bạn.");
+    }
+    // Kiểm tra trạng thái kết bạn
+    // Trả về: "FRIENDS", "SENT", "PENDING", "NONE"
+    @GetMapping("/status")
+    public ResponseEntity<String> getFriendshipStatus(@RequestParam Long currentUserId, @RequestParam Long profileUserId) {
+        String status = friendshipService.getFriendshipStatus(currentUserId, profileUserId);
+        return ResponseEntity.ok(status); // Trả về: "FRIENDS", "SENT", "PENDING", "NONE"
+    }
 }
