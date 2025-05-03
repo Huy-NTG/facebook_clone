@@ -19,10 +19,8 @@ import com.example.backend.repositories.UserRepository;
 public class FriendshipService {
     @Autowired
     private FriendshipRepository friendshipRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     // Gửi lời mời kết bạn
     public Friendship sendFriendRequest(Long senderId, Long receiverId) {
         User sender = userRepository.findById(senderId)
@@ -86,4 +84,26 @@ public class FriendshipService {
             })
             .collect(Collectors.toList());
         }
+        // Hủy kết bạn
+     public void unfriend(Long userId1, Long userId2) {
+        User user1 = userRepository.findById(userId1).orElseThrow();
+        User user2 = userRepository.findById(userId2).orElseThrow();
+        friendshipRepository.findFriendshipBetweenUsers(user1, user2)
+                .ifPresent(friendshipRepository::delete);
+     }
+        // Kiểm tra trạng thái kết bạn
+     public String getFriendshipStatus(Long userId1, Long userId2) {
+        User user1 = userRepository.findById(userId1).orElseThrow();
+        User user2 = userRepository.findById(userId2).orElseThrow();
+    
+        return friendshipRepository.findFriendshipBetweenUsers(user1, user2)
+                .map(friendship -> {
+                    if (friendship.getStatus() == FriendshipStatus.ACCEPTED) return "FRIENDS";
+                    if (friendship.getUser1().equals(user1)) return "SENT";
+                    return "PENDING";
+                })
+                .orElse("NONE");
+    }
+    
+              
 }
