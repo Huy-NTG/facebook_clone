@@ -55,10 +55,9 @@ const SettingForm = ({ user, onClose }) => {
     } catch (err) {
       alert("Cập nhật thất bại!");
       console.error(err);
-      console.log(form);
+      
     }
   };
-  
   
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -83,14 +82,12 @@ const SettingForm = ({ user, onClose }) => {
           value={formData.email || ''} 
           onChange={handleChange} 
         />
-
         <label>Họ và tên:</label>
         <input 
           name="fullName" 
           value={formData.fullName || ''} 
           onChange={handleChange} 
         />
-
         <label>Ảnh đại diện:</label>
         <div className={cx("avatar-section")}>
           <img 
