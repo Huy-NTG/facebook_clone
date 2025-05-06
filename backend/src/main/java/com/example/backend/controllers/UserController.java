@@ -42,6 +42,7 @@ public class UserController {
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    
     @PostMapping(value = "/update", consumes = "multipart/form-data")
     public ResponseEntity<String> updateUser(
         @RequestPart("user") UserUpdateDTO dto,

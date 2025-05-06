@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./Post.module.scss";
 import CommentSection from "../CommentSection/CommentSection";
 const cx = classNames.bind(styles);
@@ -9,6 +11,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 const userId = user?.id;
 
 const Post = ({ post }) => {
+    const navigate = useNavigate();
     const [likes, setLikes] = useState(0); // Số lượt thích
     const [isLiked, setIsLiked] = useState(false); // Trạng thái đã thích
     const [showComments, setShowComments] = useState(false); // Ẩn/hiện bình luận
@@ -115,6 +118,8 @@ const Post = ({ post }) => {
                     alt="Avatar"
                     className={cx("avatar")}
                     onError={(e) => e.target.src = "/assets/img/icons8-user-default-64.png"} // Ảnh mặc định nếu lỗi
+                    onClick={() => navigate(`/profile/${post.userId}`)}
+                    style={{ cursor: "pointer" }}
                 />
                 <div className={cx("post-info-container")}>
                     <p><strong>{post.fullName}</strong></p>
