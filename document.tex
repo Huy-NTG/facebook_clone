@@ -1,0 +1,351 @@
+% Defining document class and basic settings
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{vietnam}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{titling}
+\usepackage{sectsty}
+\usepackage{tocloft}
+\usepackage{parskip}
+\usepackage{times} % Sử dụng font Times New Roman
+\usepackage{verbatim} % Hỗ trợ hiển thị mã nguồn
+\usepackage{graphicx} % Hỗ trợ chèn ảnh
+\graphicspath{{images/}} % Đường dẫn đến thư mục chứa ảnh
+
+% Customizing section fonts
+\sectionfont{\large\bfseries}
+\subsectionfont{\normalsize\bfseries}
+\subsubsectionfont{\normalsize\itshape}
+
+% Customizing table of contents
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecfont}{\normalsize}
+\renewcommand{\cftsubsecfont}{\normalsize}
+\renewcommand{\cftsubsubsecfont}{\normalsize}
+
+% Defining document title and metadata
+\title{BÁO CÁO ĐỒ ÁN MÔN: XDPMTMHPL \\ CHỦ ĐỀ: PHÁT TRIỂN PHẦN MỀM MẠNG XÃ HỘI (FACEBOOK CLONE)}
+\author{
+	Phạm Ngọc Châu Thành (3122410387) \\
+	Nguyễn Chí Phong (3122410309) \\
+	Nguyễn Trương Gia Huy (3122410150) \\
+	Tạ Vinh Quang (3122410339)
+}
+\date{Giáo viên hướng dẫn: Từ Lãng Phiêu}
+
+\begin{document}
+	
+	% Creating title page
+	\maketitle
+	\begin{center}
+		\textbf{TRƯỜNG ĐẠI HỌC SÀI GÒN} \\
+		\textbf{KHOA CÔNG NGHỆ THÔNG TIN}
+	\end{center}
+	\vspace{1cm}
+	
+	% Table of contents
+	\tableofcontents
+	\newpage
+	
+	% Section 1: Giới thiệu chung
+	\section{Giới thiệu chung}
+	Dự án ``Facebook Clone'' là một hệ thống mạng xã hội mô phỏng các tính năng cơ bản của Facebook. Ứng dụng cho phép người dùng đăng ký, đăng nhập, đăng bài viết, bình luận, tương tác (like), kết bạn, nhắn tin và quản lý hồ sơ cá nhân.
+	
+	Mục tiêu chính của dự án là áp dụng các kiến thức về phát triển web (frontend và backend), sử dụng framework hiện đại, xây dựng RESTful API và cơ sở dữ liệu quan hệ.
+	
+	% Section 2: Cơ sở lý thuyết
+	\section{Cơ sở lý thuyết}
+	
+	% Subsection 2.1: Công nghệ sử dụng
+	\subsection{Công nghệ sử dụng}
+	
+	\subsubsection{Frontend (React + Vite)}
+	\begin{itemize}
+		\item \textbf{Framework \& Core:}
+		\begin{itemize}
+			\item React 19
+			\item Vite 6.2.0 (Build tool)
+			\item TypeScript
+		\end{itemize}
+		\item \textbf{State Management \& Data Fetching:}
+		\begin{itemize}
+			\item Zustand (State management)
+			\item React Query (Data fetching)
+			\item Axios (HTTP client)
+		\end{itemize}
+		\item \textbf{UI/UX:}
+		\begin{itemize}
+			\item Shadcn UI (Component library)
+			\item Framer Motion (Animations)
+			\item React Icons \& Lucide React (Icon libraries)
+			\item React Lazy Load Image Component (Lazy loading images)
+			\item React Toastify (Notifications)
+		\end{itemize}
+		\item \textbf{Routing \& Forms:}
+		\begin{itemize}
+			\item React Router DOM v7
+			\item React Hook Form
+		\end{itemize}
+		\item \textbf{Real-time Communication:}
+		\begin{itemize}
+			\item Socket.io Client
+		\end{itemize}
+		\item \textbf{Authentication \& Storage:}
+		\begin{itemize}
+			\item Firebase
+		\end{itemize}
+		\item \textbf{Styling:}
+		\begin{itemize}
+			\item SASS/SCSS
+			\item Classnames (CSS class management)
+		\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{Backend (Spring Boot)}
+	\begin{itemize}
+		\item \textbf{Core Framework:}
+		\begin{itemize}
+			\item Spring Boot 3.4.3
+			\item Java 17
+		\end{itemize}
+		\item \textbf{Database \& ORM:}
+		\begin{itemize}
+			\item Spring Data JPA
+			\item MySQL Connector
+		\end{itemize}
+		\item \textbf{Security:}
+		\begin{itemize}
+			\item Spring Security
+			\item Spring Security Crypto
+		\end{itemize}
+		\item \textbf{Validation:}
+		\begin{itemize}
+			\item Hibernate Validator
+			\item Jakarta Validation API
+		\end{itemize}
+		\item \textbf{Development Tools:}
+		\begin{itemize}
+			\item Lombok (Code generation)
+			\item Spring Boot Actuator (Monitoring)
+		\end{itemize}
+	\end{itemize}
+	
+	% Subsection 2.2: Mô hình ứng dụng
+	\subsection{Mô hình ứng dụng}
+	\begin{itemize}
+		\item Mô hình Client-Server (Frontend-Backend)
+		\item Microservices Architecture
+		\item RESTful API
+	\end{itemize}
+	
+	% Subsection 2.3: Cấu trúc mã nguồn
+	\subsection{Cấu trúc mã nguồn}
+	
+	\subsubsection{Cấu trúc Frontend}
+	\begin{verbatim}
+		frontend/
+		├── src/
+		│   ├── pages/           # Các trang chính
+		│   │   ├── homePage/    # Trang chủ
+		│   │   ├── loginPage/   # Trang đăng nhập
+		│   │   ├── registerPage/# Trang đăng ký
+		│   │   ├── profilePage/ # Trang cá nhân
+		│   │   └── friendsPage/ # Trang bạn bè
+		│   ├── components/      # Các component tái sử dụng
+		│   │   ├── post/        # Component bài đăng
+		│   │   ├── comment/     # Component bình luận
+		│   │   ├── friends/     # Component bạn bè
+		│   │   ├── form/        # Các form
+		│   │   └── navigation/  # Thanh điều hướng
+		│   ├── assets/          # Tài nguyên tĩnh
+		│   ├── design/          # Styles và themes
+		│   ├── App.jsx          # Component gốc
+		│   └── main.jsx         # Entry point
+		├── public/              # File public
+		└── package.json         # Dependencies và scripts
+	\end{verbatim}
+	
+	\subsubsection{Cấu trúc Backend}
+	\begin{verbatim}
+		backend/
+		├── src/
+		│   └── main/
+		│       ├── java/
+		│       │   └── com/example/backend/
+		│       │       ├── controllers/    # API endpoints
+		│       │       ├── service/        # Business logic
+		│       │       ├── repositories/   # Database access
+		│       │       ├── model/          # Entity classes
+		│       │       ├── dto/            # Data transfer objects
+		│       │       └── config/         # Cấu hình ứng dụng
+		│       └── resources/
+		│           ├── application.properties  # Cấu hình
+		│           └── static/                 # File tĩnh
+		├── uploads/           # Thư mục lưu file upload
+		└── pom.xml           # Maven dependencies
+	\end{verbatim}
+	
+	% Subsection 2.4: Xây dựng cơ sở dữ liệu
+	\subsection{Xây dựng cơ sở dữ liệu}
+	Cơ sở dữ liệu sử dụng MySQL với các bảng chính như sau:
+	\begin{itemize}
+		\item \textbf{Users}: Lưu thông tin người dùng (ID, username, email, password, fullName, avatarUrl, bio, birthday, gender, role, createdAt).
+		\item Các bảng khác (chưa được mô tả chi tiết): Posts, Comments, Likes, Friends, Messages.
+	\end{itemize}
+	Lược đồ chi tiết sẽ được bổ sung trong các phiên bản sau của báo cáo.
+	
+	% Subsection 2.5: Flowchart tổng quan
+	\subsection{Flowchart tổng quan}
+	Quy trình tổng quan của hệ thống:
+	\begin{itemize}
+		\item Người dùng truy cập trang đăng nhập/đăng ký.
+		\item Sau khi xác thực, người dùng có thể tạo bài đăng, tương tác, quản lý hồ sơ, hoặc nhắn tin.
+		\item Hệ thống sử dụng RESTful API để giao tiếp giữa frontend và backend.
+	\end{itemize}
+	(Flowchart chi tiết sẽ được bổ sung sau.)
+	
+	% Section 3: Hiện thực phần mềm
+	\section{Hiện thực phần mềm}
+	
+	% Subsection 3.1: Các tính năng chính
+	\subsection{Các tính năng chính}
+	
+	\subsubsection{Xác thực và Đăng ký}
+	\begin{itemize}
+		\item Đăng nhập bằng email và mật khẩu.
+		\item Đăng ký tài khoản mới với thông tin cơ bản (fullName, email, password).
+	\end{itemize}
+	
+	\subsubsection{Quản lý Hồ sơ}
+	\begin{itemize}
+		\item Hiển thị thông tin cá nhân: Tên, ngày sinh, giới tính, bio, avatar.
+		\item Cập nhật thông tin cá nhân và upload ảnh đại diện.
+		\item Xóa ảnh đại diện cũ nếu không còn người dùng nào sử dụng (trừ ảnh mặc định).
+	\end{itemize}
+	
+	\subsubsection{Quản lý Bài đăng}
+	\begin{itemize}
+		\item Tạo bài đăng với nội dung text và hình ảnh.
+		\item Chỉnh sửa hoặc xóa bài đăng.
+		\item Xem danh sách bài đăng, lọc theo thời gian.
+	\end{itemize}
+	
+	\subsubsection{Tương tác}
+	\begin{itemize}
+		\item Like/Unlike bài đăng.
+		\item Bình luận trên bài đăng.
+		\item Nhận thông báo real-time qua Socket.io.
+	\end{itemize}
+	
+	% Subsection 3.2: Giao diện và hình ảnh
+	\subsection{Giao diện và hình ảnh}
+	Dưới đây là các giao diện chính của hệ thống:
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{homepage.png}
+		\caption{Giao diện trang chủ}
+		\label{fig:homepage}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{profile.png}
+		\caption{Giao diện trang cá nhân}
+		\label{fig:profile}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{edit_profile.png}
+		\caption{Giao diện chỉnh sửa hồ sơ}
+		\label{fig:edit_profile}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{post.png}
+		\caption{Giao diện đăng bài}
+		\label{fig:post}
+	\end{figure}
+	
+	% Section 4: Cài đặt và môi trường
+	\section{Cài đặt và môi trường}
+	
+	% Subsection 4.1: Yêu cầu hệ thống
+	\subsection{Yêu cầu hệ thống}
+	\begin{itemize}
+		\item \textbf{Phần cứng tối thiểu:}
+		\begin{itemize}
+			\item CPU: 2.0 GHz trở lên
+			\item RAM: 4GB trở lên
+			\item Ổ cứng: 10GB trống
+		\end{itemize}
+		\item \textbf{Phần mềm cần thiết:}
+		\begin{itemize}
+			\item Java JDK 17
+			\item Node.js 18.x trở lên
+			\item MySQL 8.0
+			\item Git
+			\item IDE (VS Code/IntelliJ IDEA)
+		\end{itemize}
+	\end{itemize}
+	
+	% Subsection 4.2: Cài đặt môi trường
+	\subsection{Cài đặt môi trường}
+	\begin{itemize}
+		\item \textbf{Cài đặt Java:} Tải và cài đặt JDK 17 từ Oracle.
+		\item \textbf{Cài đặt Node.js:} Tải và cài đặt Node.js 18.x từ nodejs.org.
+		\item \textbf{Cài đặt MySQL:} Cài đặt MySQL 8.0 và tạo database.
+		\item \textbf{Cài đặt dự án:}
+		\begin{itemize}
+			\item Clone repository: \texttt{git clone <repository-url>}.
+			\item \textbf{Cài đặt Backend:} Vào thư mục \texttt{backend}, chạy \texttt{mvn install}.
+			\item \textbf{Cài đặt Frontend:} Vào thư mục \texttt{frontend}, chạy \texttt{npm install}.
+			\item \textbf{Cài đặt Database:} Import schema MySQL vào database.
+		\end{itemize}
+	\end{itemize}
+	
+	% Section 5: Phân công công việc
+	\section{Phân công công việc}
+	\begin{itemize}
+		\item \textbf{Phạm Ngọc Châu Thành}: Phát triển backend (UserService, AuthController, JWT).
+		\item \textbf{Nguyễn Chí Phong}: Phát triển frontend (Login, Register, Dashboard).
+		\item \textbf{Nguyễn Trương Gia Huy}: Thiết kế cơ sở dữ liệu và tích hợp RESTful API.
+		\item \textbf{Tạ Vinh Quang}: Phát triển tính năng real-time (Socket.io) và UI/UX.
+	\end{itemize}
+	
+	% Section 6: Tài liệu tham khảo
+	\section{Tài liệu tham khảo}
+	
+	% Subsection 6.1: Frontend
+	\subsection{Frontend}
+	\begin{itemize}
+		\item React Documentation: \url{https://react.dev/}
+		\item Vite Documentation: \url{https://vitejs.dev/}
+		\item React Router: \url{https://reactrouter.com/}
+		\item Zustand: \url{https://github.com/pmndrs/zustand}
+		\item React Query: \url{https://tanstack.com/query/latest}
+		\item Shadcn UI: \url{https://ui.shadcn.com/}
+		\item Firebase: \url{https://firebase.google.com/docs}
+	\end{itemize}
+	
+	% Subsection 6.2: Backend
+	\subsection{Backend}
+	\begin{itemize}
+		\item Spring Boot: \url{https://spring.io/projects/spring-boot}
+		\item Spring Security: \url{https://spring.io/projects/spring-security}
+		\item Spring Data JPA: \url{https://spring.io/projects/spring-data-jpa}
+		\item MySQL: \url{https://dev.mysql.com/doc/}
+	\end{itemize}
+	
+	% Subsection 6.3: Database
+	\subsection{Database}
+	\begin{itemize}
+		\item MySQL Documentation: \url{https://dev.mysql.com/doc/}
+		\item JPA Specification: \url{https://jakarta.ee/specifications/persistence/}
+	\end{itemize}
+	
+\end{document}

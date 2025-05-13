@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./HomePage.module.scss";
-import axios from "axios";
+// import axios from "axios";
 import Navbar from "../../components/navigation/Navigation";
 import Postingfrom from "../../components/postingForm/PostingForm";
 import PostList from "../../components/ContainerPost/ContainerPost";
