@@ -1,15 +1,18 @@
 package com.example.backend.controllers;
 
 import com.example.backend.dto.LoginRequest;
+
 import com.example.backend.dto.UserRegisterDTO;
 import com.example.backend.dto.UserUpdateDTO;
-// import com.example.backend.model.User;
+
 import com.example.backend.service.UserService;
+
 // import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.Map;
 
@@ -18,6 +21,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+    
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRegisterDTO dto) {
         String response = userService.register(dto);
@@ -36,6 +41,7 @@ public class UserController {
         }
         return ResponseEntity.ok(response);
     }
+    
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         return userService.findById(id)

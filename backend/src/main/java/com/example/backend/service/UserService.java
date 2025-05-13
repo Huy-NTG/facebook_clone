@@ -53,7 +53,7 @@ public class UserService {
         userRepository.save(user);
     return "Đăng ký thành công!";
     }
-    // Đăng nhập
+    // // Đăng nhập
     public Map<String, Object> login(String email, String rawPassword) {
         Optional<User> user = userRepository.findByEmail(email);
         Map<String, Object> response = new HashMap<>();
@@ -62,13 +62,18 @@ public class UserService {
             response.put("message", "Đăng nhập thành công!");
             response.put("id", user.get().getId());
             response.put("username", user.get().getUsername());
+            response.put("fullName", user.get().getFullName());
+            response.put("email", user.get().getEmail());
             response.put("avatarUrl", user.get().getAvatarUrl());
+            response.put("role", user.get().getRole().name()); // 👈 Thêm dòng này
             return response;
         }
 
         response.put("error", "Sai tên đăng nhập hoặc mật khẩu");
         return response;
     }
+    
+    
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }

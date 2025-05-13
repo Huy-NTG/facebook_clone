@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate(); // Hook dùng để chuyển trang
 
   const handleLogin = async (formData) => {
-    setLoading(true); // Bắt đầu loading
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:8080/auth/login", formData, {
         withCredentials: true,
@@ -25,12 +25,18 @@ const Login = () => {
   
       const userData = response.data;
       localStorage.setItem("user", JSON.stringify(userData));
-      navigate("/homepage");
+  
+      // 👉 Chuyển trang dựa vào role
+      if (userData.role === "ADMIN") {
+        navigate("/adminpage");
+      } else {
+        navigate("/homepage");
+      }
   
     } catch (error) {
       alert(error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.");
     } finally {
-      setLoading(false); // Dừng loading
+      setLoading(false);
     }
   };
   
