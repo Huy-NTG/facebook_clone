@@ -44,4 +44,10 @@ public class CommentService {
         List<Comment> comments = commentRepository.findByPostId(postId);
         return comments.stream().map(CommentResponse::new).collect(Collectors.toList());
     }
+
+    // Lấy tất cả bình luận
+    public List<CommentResponse> getAllComments() {
+        List<Comment> comments = commentRepository.findAll();
+        return comments.stream().map(CommentResponse::new).collect(Collectors.toList());
+    }
 }
