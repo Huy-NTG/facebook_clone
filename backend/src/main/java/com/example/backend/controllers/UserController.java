@@ -61,5 +61,8 @@ public class UserController {
         }
         return ResponseEntity.badRequest().body(result);
     }
-    
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
 }

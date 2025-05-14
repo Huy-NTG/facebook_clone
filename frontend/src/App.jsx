@@ -18,7 +18,7 @@ function App() {
         {/* Trang cá nhân của người khác */}
         <Route path="/profile/:id" element={<Profilepage />} />
         {/* Trang admin */}
-        <Route path="/adminpage" element={<AdminPage />} />
+        <Route path="/adminpage/*" element={<AdminPage />} />
         {/* Thêm các route khác nếu cần */}
       </Routes>
     </Router>

@@ -1,0 +1,323 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f3f4f6;
+    padding: 2rem 1.5rem;
+  }
+  
+  .content {
+    max-width: 90rem;
+    margin: 0 auto;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .searchFilter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .searchInput {
+    width: 100%;
+    max-width: 28rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: ring 0.2s ease;
+  
+    &:focus {
+      ring: 2px solid #3b82f6;
+    }
+  }
+  
+  .filterButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+  
+    &:hover {
+      background-color: #e5e7eb;
+    }
+  }
+  
+  .tableWrapper {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .tableHead {
+    background-color: #f9fafb;
+  }
+  
+  .th {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+    height: 72px;
+  
+    &:hover {
+      background-color: #f9fafb;
+    }
+  }
+  
+  .td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+  }
+  
+  .tdIndex {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .userCell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    height: 100%;
+  }
+  
+  .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .genderBadge {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+  }
+  
+  .roleBadge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    color: #ffffff;
+  }
+  
+  .roleAdmin {
+    background-color: #ef4444;
+  }
+  
+  .roleModerator {
+    background-color: #eab308;
+  }
+  
+  .roleUser {
+    background-color: #3b82f6;
+  }
+  
+  .viewIcon,.viewIconLock {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #2563eb;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin: 0.5rem;
+  
+    &:hover {
+      color: #1e40af;
+    }
+  }
+  
+  .viewIconLock {
+    color: #ef4444;
+
+    &:hover {
+      color: #b91c1c;
+    }
+  }
+  .statusBadge {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: #ffffff;
+    display: inline-block;
+  }
+  
+  .statusActive {
+    background-color: #10b981; /* Green for active */
+  }
+  
+  .statusLocked {
+    background-color: #ef4444; /* Red for locked */
+  }
+  
+  .emptyTable {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    color: #6b7280;
+  }
+  
+  .pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2.5rem 0;
+    color: #4b5563;
+  }
+  
+  .error {
+    color: #ef4444;
+    text-align: center;
+    padding: 2.5rem 0;
+  }
+  
+  .dialog {
+    position: relative;
+    z-index: 50;
+  }
+  
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+  }
+  
+  .dialogContainer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .dialogPanel {
+    background-color: #ffffff;
+    max-width: 28rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .dialogTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modalContent {
+    margin-top: 0;
+  }
+  
+  .modalProfile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modalAvatarContainer {
+    flex-shrink: 0;
+  }
+  
+  .modalAvatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+  }
+  
+  .modalDetails {
+    flex-grow: 1;
+  }
+  
+  .modalUsername {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+  }
+  
+  .modalDetailItem {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .icon {
+    font-size: 1rem;
+  }
+  
+  .modalStatus {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .closeButton {
+    background-color: #3b82f6;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  
+    &:hover {
+      background-color: #2563eb;
+    }
+  }

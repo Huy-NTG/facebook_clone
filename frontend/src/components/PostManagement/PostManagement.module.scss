@@ -1,0 +1,368 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f3f4f6;
+    padding: 2rem 1.5rem;
+}
+
+.content {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.searchFilter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.searchInput {
+    width: 100%;
+    max-width: 28rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: ring 0.2s ease;
+
+    &:focus {
+    ring: 2px solid #3b82f6;
+    }
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+    background-color: #e5e7eb;
+    }
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+.tableHead {
+    background-color: #f9fafb;
+}
+
+.th {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+    background-color: #f9fafb;
+    }
+}
+
+.td {
+    padding: 1rem 1.5rem;
+}
+
+.tdIndex {
+    padding: 1rem 1.5rem;
+    // font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+.authorCell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.postImage {
+    width: 4rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.viewIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #2563eb;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+    color: #1e40af;
+    }
+}
+
+.emptyTable {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    color: #6b7280;
+}
+
+.pagination {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.loading {
+    text-align: center;
+    padding: 2.5rem 0;
+    color: #4b5563;
+}
+
+.error {
+    color: #ef4444;
+    text-align: center;
+    padding: 2.5rem 0;
+}
+
+.dialog {
+    position: relative;
+    z-index: 50;
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.2s ease;
+}
+
+.dialogContainer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.dialogPanel {
+    background-color: #ffffff;
+    max-width: 80rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+}
+
+.dialogTitle {
+    font-size: 1.5rem; /* Larger, bolder title */
+    font-weight: 700;
+    color: #1e293b; /* Darker slate for elegance */
+    border-bottom: 2px solid #e2e8f0; /* Thicker, subtle border */
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem; /* More spacing for clarity */
+  }
+  
+  .modalContent {
+    margin-top: 0;
+  }
+  
+  .modalHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f1f5f9; /* Light background for header */
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modalAvatar {
+    width: 3rem; /* Slightly larger avatar */
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0; /* Subtle border for polish */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modalAuthor {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.125rem; /* Slightly larger for emphasis */
+  }
+  
+  .modalDate {
+    font-size: 0.875rem;
+    color: #64748b; /* Softer slate for secondary text */
+  }
+  
+  .modalImage {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 0.75rem;
+    overflow: hidden; /* Ensure image corners are clipped */
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    border: 1px solid #e2e8f0;
+    margin-top: 20px;
+  }
+  
+  .modalPostImage {
+    width: 100%;
+    height: 20rem; /* Increased height for better visuals */
+    object-fit: contain;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: scale(1.02); /* Subtle zoom on hover */
+    }
+  }
+  
+  .noImage {
+    width: 100%;
+    height: 20rem;
+    background: linear-gradient(145deg, #e5e7eb, #d1d5db); /* Gradient for no-image placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    color: #64748b;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #d1d5db;
+  }
+  
+  .modalColumns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem; /* Increased gap for clarity */
+    padding: 1.5rem;
+    background: #ffffff; /* White background for contrast */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .interactionColumn,
+  .infoColumn {
+    margin: 0;
+  }
+  
+  .columnTitle {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  
+  .interactionButtons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  }
+  
+  .interactionButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(145deg, #dbeafe, #bfdbfe); /* Gradient for buttons */
+    color: #1e40af;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  
+  .countBadge {
+    background: #1e40af; /* Darker blue for contrast */
+    color: #ffffff;
+    border-radius: 50%;
+    width: 1.5rem; /* Slightly larger badge */
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  
+  .infoList {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .infoLabel {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+  
+  .lockButton {
+    background: linear-gradient(145deg, #dc2626, #b91c1c); /* Gradient for button */
+    color: #ffffff;
+    padding: 0.75rem 2rem; /* Larger padding for prominence */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    &:hover {
+      background: linear-gradient(145deg, #b91c1c, #991b1b);
+      transform: translateY(-2px);
+    }
+  
+    &:active {
+      transform: translateY(0);
+    }
+  }

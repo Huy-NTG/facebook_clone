@@ -1,49 +1,84 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import axios from 'axios';
 import { Eye, Filter } from 'lucide-react';
+import Pagination from '@mui/material/Pagination';
 
 const PostManagement = () => {
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Sample data
-  const sampleData = [
-    {
-      id: 9,
-      userId: 6,
-      fullName: "Phạm Ngọc Châu Thành",
-      avatarUrl: "e13ad65a-5383-49d4-89d6-0a61f1271d9a_1375180-luffy-gear-5-sun-god-nika-one-piece-4k-pc-wallpaper.jpg",
-      content: "adfxg",
-      imageUrl: null,
-      createdAt: "2025-05-06T20:21:00"
-    }
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   useEffect(() => {
-    try {
-      setPosts(sampleData);
-    } catch (err) {
-      setError('Không thể lấy thông tin bài viết!');
-      console.error('Error fetching posts:', err);
-    }
+    axios
+      .get('http://localhost:8080/api/posts')
+      .then((res) => {
+        setPosts(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError('Không thể lấy thông tin bài viết!');
+        console.error('Error fetching posts:', err);
+      });
   }, []);
 
-  const filteredPosts = posts.filter((post) =>
-    post.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.content?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Calculate paginated posts
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const fetchInteractionData = async (post) => {
+    try {
+      const [likeResponse, commentResponse] = await Promise.all([
+        axios.get(`http://localhost:8080/api/likes/count?postId=${post.id}`),
+        axios.get(`http://localhost:8080/api/comments/${post.id}`),
+      ]);
+
+      return {
+        ...post,
+        likeCount: likeResponse.data.count || 0, // Assuming the API returns { count: number }
+        commentCount: Array.isArray(commentResponse.data) ? commentResponse.data.length : 0,
+      };
+    } catch (err) {
+      console.error('Error fetching interaction data:', err);
+      return {
+        ...post,
+        likeCount: 0,
+        commentCount: 0,
+      };
+    }
+  };
+
+  const handleViewDetails = async (post) => {
+    const postWithInteraction = await fetchInteractionData(post);
+    setSelectedPost(postWithInteraction);
+    setIsModalOpen(true);
+  };
+
+  if (loading) {
+    return <div className="text-center py-10 text-gray-600">Đang tải dữ liệu...</div>;
+  }
 
   if (error) {
     return <div className="text-red-500 text-center py-10">{error}</div>;
   }
-
-  const handleViewDetails = (post) => {
-    setSelectedPost(post);
-    setIsModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen w-full bg-gray-100 px-6 py-8">
@@ -83,20 +118,22 @@ const PostManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredPosts.length === 0 ? (
+                {currentPosts.length === 0 ? (
                   <tr>
                     <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
                       Không có bài viết nào
                     </td>
                   </tr>
                 ) : (
-                  filteredPosts.map((post, index) => (
+                  currentPosts.map((post, index) => (
                     <tr
                       key={post.id}
-                      className="border-b border-gray-200 hover:bg-gray-50 transition"
+                      className="border-b border-gray-200 hover:bg-gray-50 transition items-center"
                     >
-                      <td className="px-6 py-4 font-semibold">{index + 1}</td>
-                      <td className="px-6 py-4 flex items-center gap-3">
+                      <td className="px-6 py-4 font-semibold">
+                        {index + 1 + (currentPage - 1) * itemsPerPage}
+                      </td>
+                      <td className="p-5 flex items-center gap-3">
                         <img
                           src={
                             post.avatarUrl
@@ -123,7 +160,7 @@ const PostManagement = () => {
                           <img
                             src={`http://localhost:8080/uploads/${post.imageUrl}`}
                             alt="post"
-                            className="w-16 h-16 object-cover rounded-lg"
+                            className="w-16 h-12 object-cover rounded-lg"
                           />
                         ) : (
                           'Không có hình'
@@ -142,13 +179,15 @@ const PostManagement = () => {
             </table>
           </div>
 
-          {/* Pagination */}
+          {/* MUI Pagination */}
           <div className="mt-6 flex justify-end">
-            <div className="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-lg">
-              <button className="text-gray-600 hover:text-gray-900 text-xl">&lt;</button>
-              <span className="font-medium text-gray-700">1 / 5</span>
-              <button className="text-gray-600 hover:text-gray-900 text-xl">&gt;</button>
-            </div>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handlePageChange}
+              color="primary"
+              shape="rounded"
+            />
           </div>
         </div>
 
@@ -156,56 +195,94 @@ const PostManagement = () => {
         <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-50">
           <DialogBackdrop className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" />
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <DialogPanel className="bg-white max-w-lg w-full p-8 rounded-2xl shadow-2xl space-y-6 transform transition-all">
-              <DialogTitle className="text-2xl font-bold text-gray-800 border-b border-gray-200 pb-4 text-center">
-                Thông tin bài viết
+            <DialogPanel className="bg-white max-w-5xl w-full rounded-lg shadow-2xl p-6">
+              <DialogTitle className="text-xl font-semibold text-gray-900 border-b pb-4">
+                Chi tiết bài viết
               </DialogTitle>
               {selectedPost && (
-                <div className="space-y-8 text-gray-700">
-                  <div className="grid grid-cols-2 gap-4 text-base">
-                    <div className="font-semibold">Tác giả:</div>
-                    <div className="text-right">{selectedPost.fullName || 'Không có tên'}</div>
-                    <div className="font-semibold">Nội dung:</div>
-                    <div className="text-right">{selectedPost.content || 'Không có nội dung'}</div>
-                    <div className="font-semibold">Ngày đăng:</div>
-                    <div className="text-right">
-                      {new Date(selectedPost.createdAt).toLocaleDateString()}
+                <div className="mt-4 space-y-6">
+                  {/* Header */}
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={
+                        selectedPost.avatarUrl
+                          ? `http://localhost:8080/uploads/${selectedPost.avatarUrl}`
+                          : 'https://i.pravatar.cc/40?img=1'
+                      }
+                      alt="avatar"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div>
+                      <p className="font-medium text-gray-900">{selectedPost.fullName || 'Không có tên'}</p>
+                      <p className="text-sm text-gray-500">
+                        {selectedPost.createdAt
+                          ? new Date(selectedPost.createdAt).toLocaleString()
+                          : 'Không rõ'}
+                      </p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="font-semibold">Ảnh đại diện:</div>
-                    <div className="flex justify-center">
+
+                  {/* Post Image */}
+                  <div className="w-full">
+                    {selectedPost.imageUrl ? (
                       <img
-                        src={
-                          selectedPost.avatarUrl
-                            ? `http://localhost:8080/uploads/${selectedPost.avatarUrl}`
-                            : 'https://i.pravatar.cc/100?img=1'
-                        }
-                        alt="avatar"
-                        className="w-24 h-24 rounded-full object-cover shadow-md"
+                        src={`http://localhost:8080/uploads/${selectedPost.imageUrl}`}
+                        alt="post"
+                        className="w-full h-64 object-cover rounded-lg"
                       />
-                    </div>
+                    ) : (
+                      <div className="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
+                        Không có hình ảnh
+                      </div>
+                    )}
                   </div>
-                  {selectedPost.imageUrl && (
-                    <div className="space-y-3">
-                      <div className="font-semibold">Hình ảnh bài viết:</div>
-                      <div className="flex justify-center">
-                        <img
-                          src={`http://localhost:8080/uploads/${selectedPost.imageUrl}`}
-                          alt="post"
-                          className="w-48 h-48 object-cover rounded-lg shadow-md"
-                        />
+
+                  {/* Two Columns */}
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Interaction Column */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-gray-700">Thông tin tương tác</h3>
+                      <div className="flex space-x-4">
+                        <button className="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition">
+                          <span>Thích</span>
+                          <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                            {selectedPost.likeCount}
+                          </span>
+                        </button>
+                        <button className="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition">
+                          Bình luận
+                          <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                            {selectedPost.commentCount}
+                          </span>
+                        </button>
+                        <button className="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition">
+                          Chia sẻ
+                        </button>
                       </div>
                     </div>
-                  )}
+
+                    {/* Post Info Column */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-gray-700">Thông tin bài viết</h3>
+                      <div className="space-y-2">
+                        <p><span className="font-medium">ID:</span> {selectedPost.id || 'Không có ID'}</p>
+                        <p><span className="font-medium">Người đăng:</span> {selectedPost.fullName || 'Không có tên'}</p>
+                        <p><span className="font-medium">Trạng thái:</span> Đang hiển thị</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => setIsModalOpen(false)}
+                      className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+                    >
+                      Khóa bài viết
+                    </button>
+                  </div>
                 </div>
               )}
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Đóng
-              </button>
             </DialogPanel>
           </div>
         </Dialog>
