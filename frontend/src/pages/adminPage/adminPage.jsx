@@ -19,10 +19,9 @@ const AdminPage = () => {
     <div className={styles.container}>
         <Siderbar />
              <Routes>
-                <Route path="/dashboard" element={<h1>Hello</h1>} />
+                <Route path="/dashboard" element={<Statistic/>} />
                 <Route path="/posts" element={<PostManagement/>} />
                 <Route path="/users" element={<UserManagement/>} />
-                <Route path="/statistic" element={<Statistic/>} />
                 <Route path="*" element={<h1>404</h1>} />
              </Routes>
     </div>

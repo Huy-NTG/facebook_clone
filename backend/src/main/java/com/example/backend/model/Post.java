@@ -40,6 +40,8 @@ public class Post {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public boolean getStatus() { return status; } // Added getter
+    public void setStatus(boolean status) { this.status = status; } // Added setter
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 }
