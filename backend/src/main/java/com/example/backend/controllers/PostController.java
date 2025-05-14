@@ -1,44 +1,36 @@
 package com.example.backend.controllers;
-
 import com.example.backend.dto.PostResponse;
+import com.example.backend.dto.PostUpdateDTO;
 import com.example.backend.model.Post;
 import com.example.backend.service.PostService;
-
-// import jakarta.annotation.Resource;
-// import jakarta.persistence.criteria.Path;
-// import jakarta.validation.Valid;
-
-// import org.apache.tomcat.util.http.parser.MediaType;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-// import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/posts")
-@CrossOrigin("*") // Cho phép truy cập từ frontend
+@CrossOrigin("*")
 public class PostController {
     private final PostService postService;
-
     public PostController(PostService postService) {
         this.postService = postService;
     }
+
     @GetMapping
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         List<PostResponse> posts = postService.getAllPostsWithUser();
         return ResponseEntity.ok(posts);
     }
-    // 📌 API lấy hình ảnh từ thư mục uploads
+
     @GetMapping("/uploads/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
@@ -46,10 +38,9 @@ public class PostController {
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
-                // Xác định loại MIME dựa trên file
                 String contentType = Files.probeContentType(filePath);
                 if (contentType == null) {
-                    contentType = "application/octet-stream"; // Nếu không xác định được, dùng loại mặc định
+                    contentType = "application/octet-stream";
                 }
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType(contentType))
@@ -61,6 +52,7 @@ public class PostController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
     @PostMapping("/create")
     public ResponseEntity<?> createPost(
             @RequestParam("userId") Long userId,
@@ -73,10 +65,39 @@ public class PostController {
             return ResponseEntity.status(500).body(Map.of("error", "Lỗi khi đăng bài: " + e.getMessage()));
         }
     }
-    // 📌 Lấy tất cả bài viết của một người dùng dựa trên userId
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostResponse>> getPostsByUserId(@PathVariable Long userId) {
         List<PostResponse> posts = postService.getPostsByUserId(userId);
         return ResponseEntity.ok(posts);
     }
+
+    // New endpoint to toggle post status
+    @PostMapping("/toggle-status")
+    public ResponseEntity<String> togglePostStatus(@RequestBody Map<String, Object> request) {
+        try {
+            Long postId = Long.valueOf(request.get("postId").toString());
+            Boolean status = Boolean.valueOf(request.get("status").toString());
+            String result = postService.togglePostStatus(postId, status);
+            if (result.equals("Cập nhật trạng thái thành công!")) {
+                return ResponseEntity.ok(result);
+            }
+            return ResponseEntity.badRequest().body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi cập nhật trạng thái: " + e.getMessage());
+        }
+    }
+    @PostMapping("/update")
+public ResponseEntity<String> updatePost(@RequestPart("post") PostUpdateDTO postDTO) {
+    try {
+        String result = postService.updatePost(postDTO);
+        return ResponseEntity.ok(result);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Lỗi khi cập nhật bài viết: " + e.getMessage());
+    }
+}
 }

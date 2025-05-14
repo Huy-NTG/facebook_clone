@@ -58,14 +58,6 @@ export default function Siderbar() {
                 >
                     <PeopleAltOutlinedIcon /> {isOpen ? "Quản lý người dùng" : ''}
                 </NavLink>
-                <NavLink
-                    to="/adminpage/statistic"
-                    className={({ isActive }) =>
-                        isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-                    }
-                >
-                    <SummarizeOutlinedIcon /> {isOpen ? "Thống kê" : ''}
-                </NavLink>
             </div>
         </div>
     );

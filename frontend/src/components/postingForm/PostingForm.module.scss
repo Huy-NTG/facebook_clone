@@ -1,6 +1,6 @@
 @import url("../globalStyles/GlobalStyles.module.scss");
 .container-posting-form {
-    width: 35%;
+    width: 600px;
     padding: 10px;
     background-color: var(--backgroundPostColor);
     border-radius: 10px;
@@ -19,6 +19,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            object-fit: cover;
         }
         .default-avatar {
             width: 40px;

@@ -15,6 +15,7 @@ public class UserUpdateDTO {
     private String bio;
     private LocalDate birthday;
     private User.Gender gender;
+    private Boolean status;
 
     private MultipartFile avatarFile; // file ảnh đại diện gửi từ frontend
 }

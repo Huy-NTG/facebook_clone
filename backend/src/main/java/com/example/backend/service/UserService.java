@@ -80,32 +80,29 @@ public class UserService {
     }
     // Cập nhật thông tin người dùng
     public String updateUser(UserUpdateDTO dto) {
+    try {
         Optional<User> optionalUser = userRepository.findById(dto.getId());
-    
         if (optionalUser.isEmpty()) {
             return "Người dùng không tồn tại!";
         }
-    
+
         User user = optionalUser.get();
         String oldAvatar = user.getAvatarUrl();
         MultipartFile avatarFile = dto.getAvatarFile();
         String defaultAvatar = "user_1.png";
-    
+
+        // Handle avatar file
         if (avatarFile != null && !avatarFile.isEmpty()) {
-            // Tạo tên file mới
             String newAvatarName = UUID.randomUUID() + "_" + avatarFile.getOriginalFilename();
             newAvatarName = newAvatarName.replaceAll("\\s+", "_");
-    
-            // Đường dẫn tuyệt đối đến thư mục uploads
             String uploadsDir = System.getProperty("user.dir") + File.separator + "uploads";
             Path uploadPath = Paths.get(uploadsDir);
             Path filePath = uploadPath.resolve(newAvatarName);
-    
+
             try {
-                Files.createDirectories(uploadPath); // Tạo thư mục nếu chưa có
-                avatarFile.transferTo(filePath.toFile()); // Lưu file mới
-    
-                // Xóa ảnh cũ nếu không phải mặc định và không user nào khác dùng
+                Files.createDirectories(uploadPath);
+                avatarFile.transferTo(filePath.toFile());
+
                 if (oldAvatar != null && !oldAvatar.equals(defaultAvatar)) {
                     long count = userRepository.countByAvatarUrl(oldAvatar);
                     if (count <= 1) {
@@ -113,26 +110,53 @@ public class UserService {
                         Files.deleteIfExists(oldFilePath);
                     }
                 }
-    
-                // Cập nhật ảnh đại diện mới
                 user.setAvatarUrl(newAvatarName);
-    
             } catch (IOException e) {
                 e.printStackTrace();
-                return "Không thể lưu ảnh đại diện!";
+                return "Không thể lưu ảnh đại diện: " + e.getMessage();
             }
         }
-    
-        // Cập nhật các thông tin khác
-        user.setFullName(dto.getFullName());
-        user.setBio(dto.getBio());
-        user.setBirthday(dto.getBirthday());
-        user.setGender(dto.getGender());
-    
+
+        // Update fields only if provided
+        if (dto.getFullName() != null) {
+            user.setFullName(dto.getFullName());
+        }
+        if (dto.getBio() != null) {
+            user.setBio(dto.getBio());
+        }
+        if (dto.getBirthday() != null) {
+            user.setBirthday(dto.getBirthday());
+        }
+        if (dto.getGender() != null) {
+            user.setGender(dto.getGender());
+        }
+        if (dto.getStatus() != null) {
+            user.setStatus(dto.getStatus()); // Add status update
+        }
+
         userRepository.save(user);
         return "Cập nhật thông tin thành công!";
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Lỗi khi cập nhật thông tin: " + e.getMessage();
     }
+}
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    public String toggleUserStatus(Long id, Boolean status) {
+    try {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return "Người dùng không tồn tại!";
+        }
+        User user = optionalUser.get();
+        user.setStatus(status);
+        userRepository.save(user);
+        return "Cập nhật trạng thái thành công!";
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Lỗi khi cập nhật trạng thái: " + e.getMessage();
+    }
+}
 }

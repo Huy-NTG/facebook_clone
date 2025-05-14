@@ -3,13 +3,11 @@ import classNames from "classnames/bind";
 import styles from './InfoContainer.module.scss';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import SettingForm from "../SettingForm/SettingForm";
 const cx = classNames.bind(styles);
 
 const InfoContainer = ({ userId }) => {
   const [user, setUser] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null); // ✅ thêm biến state
-  const [isEditing, setIsEditing] = useState(false); // ✅ quản lý trạng thái
 
   useEffect(() => {
     if (!userId) return;
@@ -42,18 +40,6 @@ const InfoContainer = ({ userId }) => {
         <p><strong>Tiểu sử:</strong> {user.bio || "Chưa cập nhật"}</p>
         <p><strong>Thời gian tạo tài khoản:</strong> {new Date(user.createdAt).toLocaleString()}</p>
       </div>
-      {/* ✅ Hiển thị form chỉnh sửa */}
-      {currentUserId === userId && (
-        <div className={cx("change_profile_btn")}>
-          <button className={cx("btn")} onClick={() => setIsEditing(true)}>
-            Chỉnh sửa hồ sơ
-          </button>
-        </div>
-      )}
-      {/* Hiển thị SettingForm như modal */}
-      {isEditing && (
-        <SettingForm user={user} onClose={() => setIsEditing(false)} />
-      )}
     </div>
   );
 };

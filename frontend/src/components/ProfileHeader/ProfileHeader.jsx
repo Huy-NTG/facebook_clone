@@ -5,6 +5,7 @@
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
   import axios from "axios";
+import SettingForm from "../SettingForm/SettingForm";
 
   const cx = classNames.bind(styles);
 
@@ -13,6 +14,7 @@
     const [currentUserId, setCurrentUserId] = useState(null); // <- Thêm biến này
     const navigate = useNavigate();
     const [friendRequestStatus, setFriendRequestStatus] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     const handleSendFriendRequest = async () => {
       try {
@@ -102,9 +104,15 @@
         )}
         {/* ✅ Chỉ hiển thị nếu là người dùng hiện tại */}
         {currentUserId === userId && (
-          <div className={cx("change_profile_btn")}>
-            <button className={cx("btn")}>Chỉnh sửa hồ sơ</button>
-          </div>
+            <div className={cx("change_profile_btn")}>
+            <button className={cx("btn")} onClick={() => setIsEditing(true)}>
+                Chỉnh sửa hồ sơ
+            </button>
+            </div>
+        )}
+        {/* Hiển thị SettingForm như modal */}
+        {isEditing && (
+            <SettingForm user={user} onClose={() => setIsEditing(false)} />
         )}
       </div>
     );

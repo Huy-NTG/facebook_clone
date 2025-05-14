@@ -9,6 +9,7 @@ import com.example.backend.service.UserService;
 
 // import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,5 +65,21 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+    @PostMapping("/toggle-status")
+    public ResponseEntity<String> toggleUserStatus(@RequestBody Map<String, Object> request) {
+        try {
+            Long id = Long.valueOf(request.get("id").toString());
+            Boolean status = Boolean.valueOf(request.get("status").toString());
+            String result = userService.toggleUserStatus(id, status);
+            if (result.equals("Cập nhật trạng thái thành công!")) {
+                return ResponseEntity.ok(result);
+            }
+            return ResponseEntity.badRequest().body(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi cập nhật trạng thái: " + e.getMessage());
+        }
     }
 }

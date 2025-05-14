@@ -23,6 +23,9 @@ const UserManagement = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  // New state for confirmation dialog
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [userToToggle, setUserToToggle] = useState(null);
 
   const fetchUsers = async () => {
     try {
@@ -78,38 +81,56 @@ const UserManagement = () => {
   };
 
   const handleToggleStatus = async (user) => {
-    try {
-      const formData = new FormData();
-      formData.append('id', user.id);
-      formData.append('status', !user.status);
+    setUserToToggle(user); // Store user to toggle
+    setIsConfirmDialogOpen(true); // Open confirmation dialog
+  };
 
-      await axios.post('http://localhost:8080/auth/update', formData, {
+  const confirmToggleStatus = async () => {
+    if (!userToToggle) return;
+
+    try {
+      const form = new FormData();
+      const userJson = {
+        id: userToToggle.id,
+        status: !userToToggle.status
+      };
+      const userBlob = new Blob([JSON.stringify(userJson)], {
+        type: "application/json"
+      });
+      form.append("user", userBlob);
+
+      await axios.post("http://localhost:8080/auth/update", form, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          "Content-Type": "multipart/form-data"
+        }
       });
 
       setSnackbarMessage(
-        user.status
+        userToToggle.status
           ? 'Đã khóa người dùng thành công'
           : 'Đã mở khóa người dùng thành công'
       );
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
 
-      // Refresh the data table
       await fetchUsers();
-
-      // Update selectedUser if it's open in modal
-      if (selectedUser && selectedUser.id === user.id) {
-        setSelectedUser({ ...selectedUser, status: !user.status });
+      if (selectedUser && selectedUser.id === userToToggle.id) {
+        setSelectedUser({ ...selectedUser, status: !userToToggle.status });
       }
     } catch (error) {
+      console.error('Error updating user status:', error.response?.data || error.message);
       setSnackbarMessage('Có lỗi xảy ra khi cập nhật trạng thái');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
-      console.error('Error updating user status:', error);
+    } finally {
+      setIsConfirmDialogOpen(false); // Close dialog
+      setUserToToggle(null); // Clear user
     }
+  };
+
+  const cancelToggleStatus = () => {
+    setIsConfirmDialogOpen(false);
+    setUserToToggle(null);
   };
 
   if (loading) {
@@ -208,7 +229,7 @@ const UserManagement = () => {
                       <td className={styles.tdIndex}>
                         <span
                           className={`${styles.statusBadge} ${
-                            user.status === true ? styles.statusActive : styles.statusLocked
+                            user.status === true ? styles.statusActive : styles.statusHidden
                           }`}
                         >
                           {user.status === true ? 'Đang hoạt động' : 'Bị khóa'}
@@ -249,6 +270,7 @@ const UserManagement = () => {
           </div>
         </div>
 
+        {/* User Details Modal */}
         <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className={styles.dialog}>
           <DialogBackdrop className={styles.backdrop} />
           <div className={styles.dialogContainer}>
@@ -306,18 +328,27 @@ const UserManagement = () => {
                         </span>{' '}
                         Vai trò: {selectedUser.role || 'Người dùng'}
                       </p>
+                      <p className={styles.modalDetailItem}>
+                        <span className={styles.infoLabel}>Trạng thái:</span>{' '}
+                            <span
+                            className={`${styles.statusBadge} ${
+                            selectedUser.status ? styles.statusActive : styles.statusHidden
+                            }`}
+                        >
+                            {selectedUser.status ? 'Đang hoạt động' : 'Bị khóa'}
+                        </span>
+                      </p>
                     </div>
                   </div>
-                  <div className={styles.modalStatus}>
-                    <span
-                      className={`${styles.statusBadge} ${
-                        selectedUser.status === true ? styles.statusActive : styles.statusLocked
+                  <div className={styles.modalActions}>
+                    <button
+                      onClick={() => handleToggleStatus(selectedUser)}
+                      className={`${styles.statusToggleButton} ${
+                        selectedUser.status === true ? styles.lockButton : styles.unlockButton
                       }`}
                     >
-                      {selectedUser.status === true ? 'Đang hoạt động' : 'Bị khóa'}
-                    </span>
-                  </div>
-                  <div className helst={styles.modalActions}>
+                      {selectedUser.status === true ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
+                    </button>
                     <button
                       onClick={() => setIsModalOpen(false)}
                       className={styles.closeButton}
@@ -327,6 +358,45 @@ const UserManagement = () => {
                   </div>
                 </div>
               )}
+            </DialogPanel>
+          </div>
+        </Dialog>
+
+        {/* Confirmation Dialog */}
+        <Dialog
+          open={isConfirmDialogOpen}
+          onClose={cancelToggleStatus}
+          className={styles.dialog}
+        >
+          <DialogBackdrop className={styles.backdrop} />
+          <div className={styles.dialogContainer}>
+            <DialogPanel className={styles.dialogPanel}>
+              <DialogTitle className={styles.dialogTitle}>
+                Xác nhận thay đổi trạng thái
+              </DialogTitle>
+              <div className={styles.modalContent}>
+                <p>
+                  Bạn có chắc chắn muốn{' '}
+                  {userToToggle?.status ? 'khóa' : 'mở khóa'} tài khoản "
+                  {userToToggle?.username}"?
+                </p>
+                <div className={styles.modalActions}>
+                  <button
+                    onClick={confirmToggleStatus}
+                    className={`${styles.statusToggleButton} ${
+                      userToToggle?.status ? styles.lockButton : styles.unlockButton
+                    }`}
+                  >
+                    Xác nhận
+                  </button>
+                  <button
+                    onClick={cancelToggleStatus}
+                    className={styles.closeButton}
+                  >
+                    Hủy
+                  </button>
+                </div>
+              </div>
             </DialogPanel>
           </div>
         </Dialog>
