@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
-
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import styles from "./Post.module.scss";
 import CommentSection from "../CommentSection/CommentSection";
 const cx = classNames.bind(styles);
@@ -59,56 +59,6 @@ const Post = ({ post }) => {
         }
     };
 
-    // code gốc bị lỗi related đến việc cập nhật số lượt thích và trạng thái like
-    // const handleLike = async () => {
-    //     if (!userId) {
-    //         alert("Bạn cần đăng nhập để thích bài viết.");
-    //         return;
-    //     }
-    //     try {
-    //         const res = await fetch(`http://localhost:8080/api/likes/toggle?postId=${post.id}&userId=${userId}`, {
-    //             method: "POST",
-    //         });
-    //         const data = await res.json();
-    //         if (data.message === "liked") {
-    //             setLikes((prev) => prev + 1);
-    //             setIsLiked(true);
-    //         } else if (data.message === "unliked") {
-    //             setLikes((prev) => Math.max(0, prev - 1));
-    //             setIsLiked(false);
-    //         }
-    //     } catch (error) {
-    //         console.error("Lỗi khi gửi yêu cầu thích bài viết:", error);
-    //     }
-    // };
-    // Lấy số lượt thích từ server khi component được mount    
-    // useEffect(() => {
-    //     const fetchLikeCount = async () => {
-    //         try {
-    //             const res = await fetch(`http://localhost:8080/api/likes/count?postId=${post.id}`);
-    //             const data = await res.json();
-    //             setLikes(data.count);
-    //         } catch (error) {
-    //             console.error("Lỗi khi lấy số lượt thích:", error);
-    //         }
-    //     };
-    //     fetchLikeCount();
-    // }, [post.id]);
-    // Kiểm tra xem người dùng đã thích bài viết hay chưa
-    // useEffect(() => {
-    //     const checkIsLiked = async () => {
-    //         if (!userId) return;
-    //         try {
-    //             const res = await fetch(`http://localhost:8080/api/likes/isLiked?postId=${post.id}&userId=${userId}`);
-    //             const data = await res.json();
-    //             setIsLiked(data); // true hoặc false
-    //         } catch (error) {
-    //             console.error("Lỗi khi kiểm tra trạng thái đã thích:", error);
-    //         }
-    //     };
-    //     checkIsLiked();
-    // }, [post.id, userId]);
-
     return (
         <div className={cx("post")}>
             {/* Hiển thị ảnh đại diện và tên người dùng */}
@@ -144,7 +94,7 @@ const Post = ({ post }) => {
             {/* 🛠 Các nút tương tác */}
             <div className={cx("post-actions")}>
                 <button className={cx("btn", { liked: isLiked })} onClick={handleLike}>
-                    👍 {isLiked ? "Đã thích" : "Thích"}
+                    <ThumbUpOffAltIcon/> {isLiked ? "Đã thích" : "Thích"}
                 </button>
                 <button className={cx("btn")} onClick={() => setShowComments(!showComments)}>
                     💬 Bình luận

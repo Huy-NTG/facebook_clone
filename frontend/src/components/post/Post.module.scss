@@ -1,78 +1,182 @@
+// Define variables for reusability and easy theming
+$primary-color: #1877f2; // Facebook-inspired blue
+$secondary-color: #606770; // Gray for secondary text
+$border-color: #e5e5e5; // Light border
+$shadow-color: rgba(0, 0, 0, 0.1);
+$background-color: #ffffff;
+$hover-bg: rgba(0, 0, 0, 0.05);
+
+// Font stack for modern look
+$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
 .post {
-    position: relative; /* 🔥 Để các phần tử con có thể đặt absolute bên trong */
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
+  position: relative;
+  background: $background-color;
+  padding: 16px; // Increased for better spacing
+  border-radius: 12px; // Softer corners
+  box-shadow: 0 4px 12px $shadow-color; // Softer, deeper shadow
+  margin-bottom: 20px; // More space between posts
+  width: 100%;
+  max-width: 600px; // Constrain width for larger screens
+  margin-left: auto;
+  margin-right: auto; // Center posts
+  font-family: $font-stack;
+
+  // Post header (avatar + user info)
+  .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .avatar {
+      width: 48px; // Slightly larger avatar
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+      transition: transform 0.2s ease; // Smooth hover effect
+
+      &:hover {
+        transform: scale(1.05); // Subtle zoom on hover
+        cursor: pointer;
+      }
+    }
+
+    .post-info-container {
+      flex: 1;
+
+      p {
+        margin: 0;
+        font-size: 15px; // Slightly larger for readability
+        font-weight: 600; // Bold for username
+        color: #1c1e21; // Darker text for contrast
+      }
+
+      .time {
+        font-size: 13px;
+        color: $secondary-color;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  // Post content
+  > p {
+    font-size: 15px;
+    line-height: 1.5; // Better readability
+    color: #1c1e21;
+    margin-bottom: 12px;
+    word-wrap: break-word; // Prevent overflow
+  }
+
+  // Post image
+  .post-image {
+    display: block;
     width: 100%;
-    height: auto;
-    padding-bottom: 50px; /* 🔥 Tạo khoảng trống cho thanh tương tác */
-    .post-header{
-        display: flex;
-        align-items: center;
-        
-        .avatar{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 5px;
-            object-fit: cover;
-        }
-        .post-info-container{
-            .time {
-                font-size: 12px;
-                color: gray;
-                margin-top: 5px;
-            }
-        }
+    max-height: 500px; // Limit height to avoid overly tall images
+    object-fit: cover;
+    margin-top: 12px;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.95; // Subtle dim on hover
     }
+  }
+
+  // Like count
+  .like-count {
+    font-size: 14px;
+    font-weight: 500;
+    color: $secondary-color;
+    padding: 8px 0;
+    margin-top: 8px;
+    border-top: 1px solid $border-color; // Add separator
+  }
+
+  // Post actions (like, comment, share buttons)
+  .post-actions {
+    position: relative; // Changed from absolute to avoid overlap issues
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 1px solid $border-color;
+    margin-top: 8px;
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 6px; // Space between icon and text
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: $secondary-color;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        background-color: $hover-bg;
+      }
+
+      &.liked {
+        color: $primary-color;
+        font-weight: 600;
+      }
+
+      // Add pseudo-elements for icons (instead of emojis in JSX)
+      &[aria-label="like"]::before {
+        content: "👍";
+        font-size: 16px;
+      }
+
+      &[aria-label="comment"]::before {
+        content: "💬";
+        font-size: 16px;
+      }
+
+      &[aria-label="share"]::before {
+        content: "🔗";
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .post {
+    padding: 12px;
+    margin-bottom: 16px;
+
+    .post-header {
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+
+      .post-info-container {
+        p {
+          font-size: 14px;
+        }
+
+        .time {
+          font-size: 12px;
+        }
+      }
+    }
+
     .post-image {
-        display: block;
-        width: 100%;
-        max-height: 90%;
-        object-fit: cover;
-        margin-top: 10px;
-        border-radius: 8px;
+      max-height: 400px;
     }
-    .hidden {
-        display: none;
-    }
-    /* 🔥 Cố định like-count ngay trên post-actions */
-    .like-count {
-       // position: absolute; chú ý dòng này khi scss cho phần post chỉ có nội dung mà không có ảnh
-        bottom: 50px; /* 🔥 Giữ cách post-actions một khoảng */
-        width: 100%;
-        text-align: left;
-        font-weight: bold;
-        padding: 5px 0;
-        background-color: #fff;
-    }
+
     .post-actions {
-        position: absolute; /* 🔥 Giữ ở dưới cùng */
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 15px;
-        background: white;
-        border-top: 1px solid #ddd;
-        .btn {
-            border: none;
-            background: none;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-        .liked {
-            color: blue;
-            font-weight: bold;
-        }
+      .btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
     }
+  }
 }
