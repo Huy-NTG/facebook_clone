@@ -177,5 +177,4 @@ const ChatBox = ({ friend, onClose }) => {
     </div>
   );
 };
-
 export default ChatBox;
