@@ -1,14 +1,19 @@
 @import url('../../components/globalStyles/GlobalStyles.module.scss');
-.friend-request-list{
-    width: 100%;
-    margin-top: 20px;
-    h2{
-      margin-left: 10px;
-    }
-    .friend-request-container{
-      display: grid;
-      grid-template-columns: repeat(5, 1fr); // 5 cột trên mỗi hàng
-      gap: 15px;
-      padding: 10px;
-    }
+
+.friend-request-list {
+  width: 100%;
+  margin-top: 20px;
+  margin-left: 1rem;
+
+  h2 {
+    margin-left: 20px;
+  }
+
+  .friend-request-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); // 5 cột trên mỗi hàng
+    gap: 15px;
+    padding: 10px;
+    // width: 5px;
+  }
 }

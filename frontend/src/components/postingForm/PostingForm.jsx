@@ -41,6 +41,7 @@ const PostingForm = ({ user, variant = "home" }) => {
                     <button className={cx("posting-btn")} onClick={() => setShowForm(true)}>Bạn ơi, bạn đang nghĩ gì thế?</button>
                 </div>
             </div>
+            <hr />
             <div className={cx("posting-form-footer")}>
                 <button>
                     <FaVideo className={cx("icon")} size={20} style={{ marginRight: "5px", color: "red" }} />

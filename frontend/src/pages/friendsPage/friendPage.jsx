@@ -11,11 +11,11 @@ const FriendPage = () => {
       // Lấy dữ liệu người dùng từ localStorage
       const storedUser = localStorage.getItem("user");
   
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
-        navigate("/"); // Nếu chưa đăng nhập, quay lại trang Login
-      }
+      // if (storedUser) {
+      //   setUser(JSON.parse(storedUser));
+      // } else {
+      //   navigate("/"); // Nếu chưa đăng nhập, quay lại trang Login
+      // }
     }, [navigate]);
     return ( 
         <>
