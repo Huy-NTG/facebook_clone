@@ -136,6 +136,7 @@ const ChatBox = ({ friend, onClose }) => {
         receiver: friend.fullName,
         content: message,
         type: 'CHAT',
+        imaStringe: `/uploads/${currentUser.avatarUrl}`, // thêm dòng này
       };
       console.log('Sending message:', chatMessage);
       stompClient.publish({
@@ -176,6 +177,7 @@ const ChatBox = ({ friend, onClose }) => {
               sender={msg.sender}
               content={msg.content}
               isOwnMessage={msg.sender === currentUser.fullName}
+              imaStringe={msg.imaStringe}
             />
           </div>
         ))}
@@ -197,5 +199,4 @@ const ChatBox = ({ friend, onClose }) => {
     </div>
   );
 };
-
 export default ChatBox;
