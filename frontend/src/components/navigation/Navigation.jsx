@@ -47,7 +47,7 @@ const Navbar = ({ user }) => {
                 )}
                 <button
                   onClick={() => {
-                    localStorage.removeItem("user"); // Xóa user khỏi localStorage
+                    sessionStorage.removeItem("user"); // Xóa user khỏi sessionStorage
                     navigate("/login"); // Chuyển về trang login
                   }}
                 >

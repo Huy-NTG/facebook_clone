@@ -10,8 +10,8 @@ const cx = classNames.bind(styles);
 const CommentSection = ({ postId, onClose }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
-    // 🟢 Lấy dữ liệu user từ localStorage
-    const user = JSON.parse(localStorage.getItem("user"));
+    // 🟢 Lấy dữ liệu user từ sessionStorage
+    const user = JSON.parse(sessionStorage.getItem("user"));
     useEffect(() => {
         axios.get(`http://localhost:8080/api/comments/${postId}`)
             .then(response => setComments(response.data))
@@ -27,7 +27,7 @@ const CommentSection = ({ postId, onClose }) => {
 
         axios.post("http://localhost:8080/api/comments/add", {
             postId,
-            userId: user.id, // ✅ Lấy userId từ localStorage
+            userId: user.id, // ✅ Lấy userId từ sessionStorage
             content: newComment
         })        
         .then(response => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from 'react';
@@ -15,58 +16,118 @@ const ChatBox = ({ friend, onClose }) => {
   const [stompClient, setStompClient] = useState(null); // Chứa stomp client
   const messageEndRef = useRef(null); // Ref để cuộn xuống cuối
   const inputRef = useRef(null); // Ref để focus input
-  const currentUser = JSON.parse(localStorage.getItem('user')); // { username, fullName }
+  const currentUser = JSON.parse(sessionStorage.getItem('user')); // { username, fullName }
 
+  // useEffect(() => {
+  //   console.log('Đang cố gắng kết nối đến WebSocket...');
+    
+  //   const socketFactory = () => new SockJS('http://localhost:8080/ws');
+  //   const client = new Client({
+  //     webSocketFactory: socketFactory,
+  //     reconnectDelay: 5000,
+  //     debug: (str) => console.log('[STOMP]', str),
+  //     onConnect: () => {
+  //       console.log('✅ Kết nối WebSocket thành công!');
+  //       client.publish({
+  //         destination: '/app/join',
+  //         body: JSON.stringify({ sender: currentUser.fullName }),
+  //       });
+  //       client.subscribe('/topic/messages', (msg) => {
+  //         console.log('📩 Nhận tin nhắn:', msg.body);
+  //         const parsedMsg = JSON.parse(msg.body);
+  //         if (
+  //           parsedMsg.type === 'CHAT' &&
+  //           (parsedMsg.sender === currentUser.fullName ||
+  //             parsedMsg.sender === friend.fullName ||
+  //             parsedMsg.receiver === currentUser.fullName ||
+  //             parsedMsg.receiver === friend.fullName)
+  //         ) {
+  //           setMessages((prevMessages) => [...prevMessages, parsedMsg]);
+  //         } else if (parsedMsg.type === 'JOIN' || parsedMsg.type === 'LEAVE') {
+  //           setMessages((prevMessages) => [...prevMessages, parsedMsg]);
+  //         }
+  //       });
+  //       setStompClient(client);
+  //     },
+  //     onStompError: (frame) => {
+  //       console.error('❌ Lỗi STOMP:', frame);
+  //     },
+  //     onWebSocketError: (error) => {
+  //       console.error('❌ Lỗi WebSocket:', error);
+  //     },
+  //     onWebSocketClose: () => {
+  //       console.warn('⚠️ WebSocket đã đóng. Mất kết nối hoặc server không phản hồi.');
+  //     },
+  //   });
+  
+  //   client.activate();
+  
+  //   return () => {
+  //     if (client && client.active) {
+  //       client.deactivate();
+  //       console.log('👋 Ngắt kết nối WebSocket');
+  //     }
+  //   };
+  // }, [currentUser.fullName]);
   useEffect(() => {
-    const socketFactory = () => new SockJS('http://localhost:8080/chat-websocket');
+    console.log('Đang cố gắng kết nối đến WebSocket...');
+  
+    const socketFactory = () => new SockJS('http://localhost:8080/ws', null, {
+      withCredentials: true
+    });
+    
     const client = new Client({
-      webSocketFactory: socketFactory,
+      brokerURL: 'ws://localhost:8080/ws', // kết nối thành công
+      // webSocketFactory: socketFactory,
       reconnectDelay: 5000,
       debug: (str) => console.log('[STOMP]', str),
       onConnect: () => {
-        console.log('Connected to WebSocket');
+        console.log('✅ Kết nối WebSocket thành công!');
+        
+        // Gửi sự kiện tham gia (JOIN)
         client.publish({
           destination: '/app/join',
-          body: JSON.stringify({ sender: currentUser.fullName }),
+          body: currentUser.fullName, // hoặc JSON.stringify nếu bên backend nhận object
         });
+  
+        // Đăng ký lắng nghe kênh /topic/messages
         client.subscribe('/topic/messages', (msg) => {
-          console.log('Received message:', msg.body);
           const parsedMsg = JSON.parse(msg.body);
-          // Lọc tin nhắn phù hợp (CHAT chỉ hiển thị nếu liên quan đến currentUser hoặc friend)
+          console.log('📩 Nhận tin nhắn:', parsedMsg);
+        
           if (
             parsedMsg.type === 'CHAT' &&
-            (parsedMsg.sender === currentUser.fullName ||
-              parsedMsg.sender === friend.fullName ||
-              parsedMsg.receiver === currentUser.fullName ||
-              parsedMsg.receiver === friend.fullName)
+            (parsedMsg.sender === currentUser.fullName || parsedMsg.receiver === currentUser.fullName)
           ) {
-            setMessages((prevMessages) => [...prevMessages, parsedMsg]);
+            setMessages((prev) => [...prev, parsedMsg]);
           } else if (parsedMsg.type === 'JOIN' || parsedMsg.type === 'LEAVE') {
-            setMessages((prevMessages) => [...prevMessages, parsedMsg]);
+            setMessages((prev) => [...prev, parsedMsg]);
           }
         });
+  
         setStompClient(client);
       },
       onStompError: (frame) => {
-        console.error('STOMP error:', frame);
+        console.error('❌ Lỗi STOMP:', frame);
       },
       onWebSocketError: (error) => {
-        console.error('WebSocket error:', error);
+        console.error('❌ Lỗi WebSocket:', error);
       },
       onWebSocketClose: () => {
-        console.log('WebSocket closed');
+        console.warn('⚠️ WebSocket đã đóng. Mất kết nối hoặc server không phản hồi.');
       },
     });
-
+  
     client.activate();
-
+  
     return () => {
       if (client && client.active) {
         client.deactivate();
-        console.log('Disconnected from WebSocket');
+        console.log('👋 Ngắt kết nối WebSocket');
       }
     };
   }, [currentUser.fullName]);
+  
 
   const sendMessage = () => {
     if (stompClient && stompClient.active && message.trim() !== '') {
@@ -88,12 +149,12 @@ const ChatBox = ({ friend, onClose }) => {
     }
   };
 
-  // Tự động cuộn xuống tin nhắn mới
+  //Tự động cuộn xuống tin nhắn mới
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Focus input khi component mount
+  //Focus input khi component mount
   useEffect(() => {
     inputRef.current?.focus();
   }, []);

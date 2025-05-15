@@ -18,7 +18,7 @@ const Profilepage = () => {
   const navigate = useNavigate();
   const { id: paramId } = useParams(); // lấy id từ URL nếu có
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = sessionStorage.getItem("user");
     if (!storedUser) {
       navigate("/");
       return;
