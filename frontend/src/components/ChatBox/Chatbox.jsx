@@ -20,7 +20,7 @@ const ChatBox = ({ friend, onClose }) => {
 
   // useEffect(() => {
   //   console.log('Đang cố gắng kết nối đến WebSocket...');
-    
+
   //   const socketFactory = () => new SockJS('http://localhost:8080/ws');
   //   const client = new Client({
   //     webSocketFactory: socketFactory,
@@ -59,9 +59,9 @@ const ChatBox = ({ friend, onClose }) => {
   //       console.warn('⚠️ WebSocket đã đóng. Mất kết nối hoặc server không phản hồi.');
   //     },
   //   });
-  
+
   //   client.activate();
-  
+
   //   return () => {
   //     if (client && client.active) {
   //       client.deactivate();
@@ -70,12 +70,12 @@ const ChatBox = ({ friend, onClose }) => {
   //   };
   // }, [currentUser.fullName]);
   useEffect(() => {
-    console.log('Đang cố gắng kết nối đến WebSocket...');
-  
+    console.log('Đang cố gắng kết nối đến WebSocket...', currentUser?.avatarUrl);
+
     const socketFactory = () => new SockJS('http://localhost:8080/ws', null, {
       withCredentials: true
     });
-    
+
     const client = new Client({
       brokerURL: 'ws://localhost:8080/ws', // kết nối thành công
       // webSocketFactory: socketFactory,
@@ -83,18 +83,18 @@ const ChatBox = ({ friend, onClose }) => {
       debug: (str) => console.log('[STOMP]', str),
       onConnect: () => {
         console.log('✅ Kết nối WebSocket thành công!');
-        
+
         // Gửi sự kiện tham gia (JOIN)
         client.publish({
           destination: '/app/join',
           body: currentUser.fullName, // hoặc JSON.stringify nếu bên backend nhận object
         });
-  
+
         // Đăng ký lắng nghe kênh /topic/messages
         client.subscribe('/topic/messages', (msg) => {
           const parsedMsg = JSON.parse(msg.body);
           console.log('📩 Nhận tin nhắn:', parsedMsg);
-        
+
           if (
             parsedMsg.type === 'CHAT' &&
             (parsedMsg.sender === currentUser.fullName || parsedMsg.receiver === currentUser.fullName)
@@ -104,7 +104,7 @@ const ChatBox = ({ friend, onClose }) => {
             setMessages((prev) => [...prev, parsedMsg]);
           }
         });
-  
+
         setStompClient(client);
       },
       onStompError: (frame) => {
@@ -117,9 +117,9 @@ const ChatBox = ({ friend, onClose }) => {
         console.warn('⚠️ WebSocket đã đóng. Mất kết nối hoặc server không phản hồi.');
       },
     });
-  
+
     client.activate();
-  
+
     return () => {
       if (client && client.active) {
         client.deactivate();
@@ -127,7 +127,7 @@ const ChatBox = ({ friend, onClose }) => {
       }
     };
   }, [currentUser.fullName]);
-  
+
 
   const sendMessage = () => {
     if (stompClient && stompClient.active && message.trim() !== '') {
@@ -168,6 +168,10 @@ const ChatBox = ({ friend, onClose }) => {
       <div className={cx('messages')}>
         {messages.map((msg, index) => (
           <div key={index} className={cx('message')}>
+            <span>
+              <img src={`http://localhost:8080/uploads/user_1.png`} alt="Avatar" />
+            </span>
+
             <Message
               sender={msg.sender}
               content={msg.content}
