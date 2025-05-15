@@ -29,13 +29,17 @@ const PostList = ({ userId }) => {
     }, [userId]); // chạy lại khi userId thay đổi
 
     return (
-        <div className={cx("post-list")}>
-            {posts.length > 0 ? (
-                posts.map(post => <Post key={post.id} post={post} />)
-            ) : (
-                <p>Chưa có bài viết nào.</p>
-            )}
-        </div>
+                // ...existing code...
+               // ...existing code...
+                <div className={cx("post-list")}>
+                            {posts.length > 0 ? (
+                                posts.sort((a, b) => b.id - a.id).filter(post => post.status === true).map(post => <Post key={post.id} post={post} />)
+                            ) : (
+                                <p>Chưa có bài viết nào.</p>
+                            )}
+                        </div>
+        // ...existing code...
+        // ...existing code...
     );
 };
 

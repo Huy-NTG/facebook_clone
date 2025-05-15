@@ -1,29 +1,118 @@
+$message-border-radius: 18px;
+$own-message-bg: #0084ff;
+$friend-message-bg: #e4e6eb;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
 .message {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* mặc định tin nhắn bên trái */
-    margin: 8px;
-    max-width: 70%;
-    padding: 8px 12px;
-    border-radius: 12px;
-    background-color: #f1f0f0;
-    align-self: flex-start;
-  
-    span {
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 4px;
+  display: flex;
+  align-items: flex-start;
+  margin: 4px 8px;
+//   max-width: 80%;
+  gap: 8px;
+
+  &.own {
+    justify-content: flex-end;
+    margin-left: auto;
+
+    .message-content {
+      background: $own-message-bg;
+      color: #ffffff;
+      border-radius: $message-border-radius $message-border-radius 4px $message-border-radius;
     }
-  
+  }
+
+  &:not(.own) {
+    .message-content {
+      background: $friend-message-bg;
+      color: #1c1e21;
+      border-radius: $message-border-radius $message-border-radius $message-border-radius 4px;
+    }
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .message-content {
+    padding: 8px 12px;
+    border-radius: $message-border-radius;
+    box-shadow: 0 1px 2px $shadow-color;
+    transition: transform 0.2s ease;
+    max-width: 100%;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    .sender {
+      font-size: 12px;
+      font-weight: 600;
+      color: #65676b;
+      margin-bottom: 2px;
+    }
+
     p {
       margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
       word-break: break-word;
     }
+
+    .timestamp {
+      display: block;
+      font-size: 11px;
+      color: inherit;
+      opacity: 0.7;
+      margin-top: 2px;
+      text-align: right;
+    }
   }
-  
-  .own {
-    align-items: flex-end;
-    background-color: #dcf8c6;
-    align-self: flex-end;
+}
+
+@media (prefers-color-scheme: dark) {
+  .message {
+    &.own .message-content {
+      background: #005bb5;
+    }
+    &:not(.own) .message-content {
+      background: #3a3b3c;
+      color: #e4e6eb;
+    }
+    .message-content .sender {
+      color: #b0b3b8;
+    }
   }
-  
+}
+
+@media (max-width: 600px) {
+  .message {
+    margin: 4px 6px;
+    max-width: 85%;
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+    }
+
+    .message-content {
+      padding: 6px 10px;
+
+      .sender {
+        font-size: 11px;
+      }
+
+      p {
+        font-size: 13px;
+      }
+
+      .timestamp {
+        font-size: 10px;
+      }
+    }
+  }
+}
