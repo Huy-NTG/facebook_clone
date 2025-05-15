@@ -28,8 +28,8 @@ const PostModal = ({ user, onClose }) => {
         if (!postContent.trim() && !image) return;
         setLoading(true);
         try {
-            // Lấy thông tin người dùng từ localStorage
-            const storedUser = JSON.parse(localStorage.getItem("user"));
+            // Lấy thông tin người dùng từ sessionStorage
+            const storedUser = JSON.parse(sessionStorage.getItem("user"));
             const userId = storedUser?.id || 1; // Lấy ID từ user, nếu không có thì mặc định là 1
     
             const formData = new FormData();

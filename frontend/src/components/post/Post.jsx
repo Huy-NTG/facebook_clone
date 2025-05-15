@@ -7,7 +7,7 @@ import styles from "./Post.module.scss";
 import CommentSection from "../CommentSection/CommentSection";
 const cx = classNames.bind(styles);
 // eslint-disable-next-line react/prop-types
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(sessionStorage.getItem("user"));
 const userId = user?.id;
 
 const Post = ({ post }) => {

@@ -24,7 +24,7 @@ const Login = () => {
       });
   
       const userData = response.data;
-      localStorage.setItem("user", JSON.stringify(userData));
+      sessionStorage.setItem("user", JSON.stringify(userData));
   
       // 👉 Chuyển trang dựa vào role
       if (userData.role === "ADMIN") {
