@@ -244,12 +244,12 @@ const PostManagement = () => {
                           onClick={() => handleViewDetails(post)}
                         />
                         {post.status ? (
-                          <LockKeyhole
+                          <LockOpen
                             className={styles.viewIcon}
                             onClick={() => handleToggleStatus(post)}
                           />
                         ) : (
-                          <LockOpen
+                          <LockKeyhole
                             className={styles.viewIconLock}
                             onClick={() => handleToggleStatus(post)}
                           />
