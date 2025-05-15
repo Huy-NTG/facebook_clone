@@ -13,8 +13,8 @@ const InfoContainer = ({ userId }) => {
 
   useEffect(() => {
     if (!userId) return;
-    // ✅ lấy user đăng nhập từ localStorage
-    const storedUser = localStorage.getItem("user");
+    // ✅ lấy user đăng nhập từ sessionStorage
+    const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setCurrentUserId(parsedUser.id);

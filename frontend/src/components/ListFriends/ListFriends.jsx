@@ -8,13 +8,13 @@ const cx = classNames.bind(styles);
 const FriendList = () => {
   const [friends, setFriends] = useState([]);
   
-  // Lấy user từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  // Lấy user từ sessionStorage
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user?.id;
 
   useEffect(() => {
     if (!userId) {
-      console.error("Không tìm thấy userId trong localStorage");
+      console.error("Không tìm thấy userId trong sessionStorage");
       return;
     }
   

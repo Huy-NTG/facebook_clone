@@ -14,7 +14,7 @@ const PostingForm = ({ user, variant = "home" }) => {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
+        const storedUser = sessionStorage.getItem("user");
         if (storedUser) {
             setCurrentUser(JSON.parse(storedUser));
         }

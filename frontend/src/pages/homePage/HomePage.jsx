@@ -14,8 +14,8 @@ const HomePage = () => {
     const navigate = useNavigate();
   
     useEffect(() => {
-      // Lấy dữ liệu người dùng từ localStorage
-      const storedUser = localStorage.getItem("user");
+      // Lấy dữ liệu người dùng từ sessionStorage
+      const storedUser = sessionStorage.getItem("user");
   
       if (storedUser) {
         setUser(JSON.parse(storedUser));

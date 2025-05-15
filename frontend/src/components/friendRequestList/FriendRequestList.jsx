@@ -5,7 +5,7 @@ import styles from "./FriendRequestList.module.scss";
 const cx = classNames.bind(styles);
 const FriendRequestList = () => {
   const [requests, setRequests] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user?.id;
 
   useEffect(() => {
