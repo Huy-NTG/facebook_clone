@@ -4,7 +4,7 @@ import com.example.backend.dto.LoginRequest;
 
 import com.example.backend.dto.UserRegisterDTO;
 import com.example.backend.dto.UserUpdateDTO;
-
+import com.example.backend.model.User;
 import com.example.backend.service.UserService;
 
 // import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Map;
-
+import java.util.List;
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -81,5 +81,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Lỗi khi cập nhật trạng thái: " + e.getMessage());
         }
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam("keyword") String keyword) {
+        List<User> users = userService.searchUsersByFullName(keyword);
+        return ResponseEntity.ok(users);
     }
 }

@@ -90,14 +90,21 @@ public class PostController {
         }
     }
     @PostMapping("/update")
-public ResponseEntity<String> updatePost(@RequestPart("post") PostUpdateDTO postDTO) {
-    try {
-        String result = postService.updatePost(postDTO);
-        return ResponseEntity.ok(result);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Lỗi khi cập nhật bài viết: " + e.getMessage());
+    public ResponseEntity<String> updatePost(@RequestPart("post") PostUpdateDTO postDTO) {
+        try {
+            String result = postService.updatePost(postDTO);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi cập nhật bài viết: " + e.getMessage());
+        }
     }
-}
+    // controller to search posts by content
+    @GetMapping("/search")
+    public ResponseEntity<List<PostResponse>> searchPosts(@RequestParam("keyword") String keyword) {
+        List<PostResponse> results = postService.searchPostsByContent(keyword);
+        return ResponseEntity.ok(results);
+    }
+
 }
