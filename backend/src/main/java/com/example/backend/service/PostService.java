@@ -116,6 +116,40 @@ public class PostService {
     } catch (Exception e) {
         e.printStackTrace();
         return "Lỗi khi cập nhật trạng thái: " + e.getMessage();
+        }
     }
-}
+    // hàm tìm kiếm bài viết theo nội dung
+    public List<PostResponse> searchPostsByContent(String keyword) {
+        List<Post> posts = postRepository.findByContentContainingIgnoreCase(keyword);
+    
+        return posts.stream().map(post -> {
+            User user = userRepository.findById(post.getUserId()).orElse(null);
+            return new PostResponse(
+                post.getId(),
+                post.getUserId(),
+                user != null ? user.getFullName() : "Người dùng không tồn tại",
+                user != null ? user.getAvatarUrl() : null,
+                post.getContent(),
+                post.getImageUrl(),
+                post.getStatus(),
+                post.getCreatedAt()
+            );
+        }).collect(Collectors.toList());
+    }
+    // hàm tìm kiếm bài viết theo id
+    public PostResponse convertToPostResponse(Post post) {
+        User user = userRepository.findById(post.getUserId()).orElse(null);
+        return new PostResponse(
+            post.getId(),
+            post.getUserId(),
+            user != null ? user.getFullName() : "Người dùng không tồn tại",
+            user != null ? user.getAvatarUrl() : null,
+            post.getContent(),
+            post.getImageUrl(),
+            post.getStatus(),
+            post.getCreatedAt()
+        );
+    }
+    
+    
 }

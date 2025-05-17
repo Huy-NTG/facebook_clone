@@ -154,9 +154,12 @@ public class UserService {
         user.setStatus(status);
         userRepository.save(user);
         return "Cập nhật trạng thái thành công!";
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Lỗi khi cập nhật trạng thái: " + e.getMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Lỗi khi cập nhật trạng thái: " + e.getMessage();
+        }
     }
-}
+    public List<User> searchUsersByFullName(String keyword) {
+        return userRepository.findByFullNameContainingIgnoreCase(keyword);
+    }
 }

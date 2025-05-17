@@ -5,6 +5,7 @@ import HomePage from "./pages/homePage/HomePage.jsx";
 import FriendPage from "./pages/friendsPage/friendPage.jsx";
 import Profilepage from "./pages/profilePage/ProfilePage.jsx";
 import AdminPage from "./pages/adminPage/adminPage.jsx";
+import SearchPage from "./pages/searchPage/searchPage.jsx";
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
         {/* Trang admin */}
         <Route path="/adminpage/*" element={<AdminPage />} />
         {/* Thêm các route khác nếu cần */}
+        <Route path="/search/:keyword" element={<SearchPage />} />
       </Routes>
     </Router>
   );

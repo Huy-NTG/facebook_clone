@@ -11,8 +11,12 @@ const Navbar = ({ user }) => {
     const navigate = useNavigate();
     const handleSearch = (e) => {
       e.preventDefault();
-      alert(`Tìm kiếm: ${search}`);
+      if (search.trim()) {
+        navigate(`/search/${encodeURIComponent(search.trim())}`);
+        setSearch("");
+      }
     };
+    
     return (
       <nav className={cx("navbar")}>
         {/* Logo */}
