@@ -3,11 +3,33 @@
     // align-items: center;
     justify-content: space-around;
     margin: 20px 100px;
+
+    .container_friend_and_profile{
+        width: 30%;
+    }
     .container_post{
         display: flex;
         flex-direction: column;
         gap: 20px;
-        justify-content: center;
+        justify-content: flex-start;
         // align-items: center;
     }
+}
+@media screen and (max-width: 1024px) {
+    .container_friend_and_post{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+
+        .container_friend_and_profile{
+            width: 100%;
+            margin: 0;
+        }
+        .container_post{
+            width: 100%;
+            gap: 10px;
+        }
+    }
+    
 }

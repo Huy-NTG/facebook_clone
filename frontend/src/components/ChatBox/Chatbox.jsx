@@ -10,7 +10,8 @@ import styles from './ChatBox.module.scss';
 
 const cx = classNames.bind(styles);
 
-const ChatBox = ({ friend, onClose }) => {
+// This component is the individual chat box
+const ChatBox = ({ friend, onClose, position, totalChats }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
@@ -105,8 +106,21 @@ const ChatBox = ({ friend, onClose }) => {
     return 'http://localhost:8080/uploads/user_1.png';
   };
 
+  // Calculate the position based on the index
+  const chatboxStyle = {
+    right: `${(position * 340) + 20}px` // 320px width + 20px spacing
+  };
+
+  // If we have more than 3 chats, adjust the z-index to ensure proper stacking
+  const zIndex = 1000 - position;
+
   return (
-    <div className={cx('chatbox', { minimized: isMinimized })}>
+    <div 
+      className={cx('chatbox', { minimized: isMinimized })}
+      style={chatboxStyle}
+      data-position={position}
+      data-total-chats={totalChats}
+    >
       <div className={cx('header')} onClick={() => setIsMinimized(!isMinimized)}>
         <div className={cx('header-content')}>
           <div className={cx('avatar')} style={{ backgroundImage: `url(${getAvatarUrl(friend.fullName)})` }}></div>
@@ -145,7 +159,8 @@ const ChatBox = ({ friend, onClose }) => {
                   content={msg.content}
                   timestamp={msg.timestamp}
                   isOwnMessage={msg.sender === currentUser.fullName}
-                  avatarUrl={getAvatarUrl(msg.sender)}
+                  avatarUrl={msg.type === 'CHAT' ? getAvatarUrl(msg.sender) : null}
+                  isSystemMessage={msg.type === 'JOIN' || msg.type === 'LEAVE'}
                 />
               </div>
             ))}
@@ -177,4 +192,5 @@ const ChatBox = ({ friend, onClose }) => {
     </div>
   );
 };
+
 export default ChatBox;

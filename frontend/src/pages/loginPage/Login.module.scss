@@ -7,6 +7,7 @@
     align-items: center; // Căn giữa theo chiều dọc
     background-color: var(--background);
     .login-title-container{
+        margin: 20px;
         h1{
             color: var(--logocolor);
             font-size: 60px;
@@ -28,4 +29,36 @@
         height: 70%;
         margin-bottom: 80px;
     }
+}
+
+@media screen and (max-width: 1024px) {
+    .login-background{
+        flex-direction: column;
+        justify-content: center; // Căn giữa theo chiều ngang
+        align-items: center; // Căn giữa theo chiều dọc
+        .login-title-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+            h1{
+                font-size: 40px;
+            }
+            h3{
+                font-size: 20px;
+                line-height: 24px;
+            }
+        }
+
+        .login-container-form{
+            width: 92%;
+            height: 50%;
+        }
+        .container-register{
+            width: 92%;
+            height: 70%;
+        }
+    }
+    
 }

@@ -42,7 +42,7 @@ const Profilepage = () => {
       <Navbar user={loggedInUser} />
       <ProfileHeader userId={user.id} />
       <div className={cx("container_friend_and_post")}>
-        <div className={cx("container_friend_ and_ profile")}>
+        <div className={cx("container_friend_and_profile")}>
           <InfoContainer userId={user.id}/>
           <ListFriendsByID userId={user.id} />
         </div>

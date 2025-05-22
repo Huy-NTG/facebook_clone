@@ -125,3 +125,14 @@
   }
   
 }
+@media (max-width: 1024px) {
+    .modal {
+        padding: 0 10px;
+
+        .modal-content {
+            width: 90%;
+            max-height: 80vh;
+        }
+    }
+    
+}
