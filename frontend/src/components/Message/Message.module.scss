@@ -35,7 +35,7 @@ $system-message-bg: #d1f1f0; // Light teal background like in the image
         border-radius: 10px;
         box-shadow: none;
         text-align: center;
-        max-width: 80%;
+        // max-width: 80%;
 
         .sender {
           display: none; // Hide sender name for system messages
@@ -102,27 +102,6 @@ $system-message-bg: #d1f1f0; // Light teal background like in the image
       opacity: 0.7;
       margin-top: 2px;
       text-align: right;
-    }
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .message {
-    &.own .message-content {
-      background: #005bb5;
-    }
-    &:not(.own) {
-      &.system .message-content {
-        background: #2a5e5d; // Darker teal for dark mode
-        color: #e4e6eb;
-      }
-      &:not(.system) .message-content {
-        background: #3a3b3c;
-        color: #e4e6eb;
-      }
-    }
-    .message-content .sender {
-      color: #b0b3b8;
     }
   }
 }

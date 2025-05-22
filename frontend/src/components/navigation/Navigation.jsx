@@ -41,8 +41,8 @@ const Navbar = ({ user }) => {
         </div>
         {/* Avatar người dùng */}
         <div className={cx("navbar-right")}>
-                <FaFacebookMessenger className={cx("chat-icon")}/>
-                <FaBell className={cx("Notification-icon")} />
+                {/* <FaFacebookMessenger className={cx("chat-icon")}/>
+                <FaBell className={cx("Notification-icon")} /> */}
                 {user ? (
                     // eslint-disable-next-line react/prop-types
                     <span className={cx("user-name")}>{user.username}</span>

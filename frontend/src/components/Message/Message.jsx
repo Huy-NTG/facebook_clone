@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './Message.module.scss';
 
@@ -14,7 +13,7 @@ const Message = ({ sender, content, timestamp, isOwnMessage, avatarUrl, isSystem
   };
 
   return (
-    <div className={cx('message', { own: isOwnMessage })}>
+    <div className={cx('message', { own: isOwnMessage, system: isSystemMessage })}>
       {!isOwnMessage && !isSystemMessage && avatarUrl && (
         <div className={cx('avatar')} style={{ backgroundImage: `url(${avatarUrl})` }}></div>
       )}

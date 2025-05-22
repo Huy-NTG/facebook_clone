@@ -7,30 +7,20 @@ const cx = classNames.bind(styles);
 
 const Friend = ({ friend, showMessageButton = true, onClick }) => {
   return (
-    <div className={cx("friend-card")}>
+    <div className={cx("friend-card")} onClick={() => onClick?.(friend)}>
       <img
         src={friend.avatarUrl ? `http://localhost:8080/uploads/${friend.avatarUrl}` : "/assets/img/icons8-user-default-64.png"}
         alt={friend.fullName}
         className={cx("avatar")}
-        onClick={() => onClick?.(friend)}
         style={{ cursor: "pointer" }}
       />
       <div className={cx("friend-info")}>
         <p
           className={cx("friend-name")}
-          onClick={() => onClick?.(friend)}
           style={{ cursor: "pointer" }}
         >
           {friend.fullName}
         </p>
-        {showMessageButton && (
-          <button 
-            className={cx("message-btn")} 
-            onClick={() => onClick?.(friend)}
-          >
-            Nhắn tin
-          </button>
-        )}
       </div>
     </div>
   );
