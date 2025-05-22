@@ -1,14 +1,23 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-no-duplicate-props */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaFacebook, FaBell, FaUserFriends, FaBars, FaSearch, FaHome, FaFacebookMessenger, FaHouseUser } from "react-icons/fa";
 import classNames from "classnames/bind";
 import styles from './Navigation.module.scss';
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useNotificationSocket from "../../hooks/useNotificationSocket";   // 👈 hook bạn đã viết
+
 const cx = classNames.bind(styles);
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ user }) => {
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
+    
+      // 👉 chỉ 1 dòng – hook sẽ tự connect & toast
+    useNotificationSocket(user?.id);
     const handleSearch = (e) => {
       e.preventDefault();
       if (search.trim()) {
@@ -18,6 +27,7 @@ const Navbar = ({ user }) => {
     };
     
     return (
+      <>
       <nav className={cx("navbar")}>
         {/* Logo */}
         <div className={cx("navbar-left")}>
@@ -59,6 +69,10 @@ const Navbar = ({ user }) => {
                 </button>
             </div>
       </nav>
+      {/* khay toast (render 1 lần cho toàn app càng tốt) */}
+      <ToastContainer newestOnTop limit={1} />
+      {/* <ToastContainer position="bottom-right" newestOnTop limit={3} /> */}
+      </>
     );
   };
   export default Navbar;

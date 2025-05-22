@@ -9,6 +9,8 @@ import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import styles from "./Post.module.scss";
 import CommentSection from "../CommentSection/CommentSection";
 
+import useNotificationSocket from "../../hooks/useNotificationSocket";   // 🔥 new
+
 const cx = classNames.bind(styles);
 const user = JSON.parse(sessionStorage.getItem("user"));
 const userId = user?.id;
@@ -57,6 +59,32 @@ const Post = ({ post }) => {
         checkIsLiked();
     }, [post.id, userId]);
 
+    /* -------------------------------- like handler -------------------------------- */
+        const handleLike = async () => {
+            if (!userId) return alert("Bạn cần đăng nhập để thích.");
+
+            /** 🔥 optimistic update */
+            setIsLiked(cur => !cur);
+            setLikes(c => (isLiked ? c - 1 : c + 1));
+
+            try {
+            const res = await fetch(
+                `http://localhost:8080/api/likes/toggle?postId=${post.id}&userId=${userId}`,
+                { method: "POST" }
+            );
+            if (!res.ok) throw new Error("Toggle like failed");
+            } catch (e) {
+            console.error("Lỗi like:", e);
+            /** rollback khi lỗi */
+            setIsLiked(cur => !cur);
+            setLikes(c => (isLiked ? c + 1 : c - 1));
+            }
+        };
+
+        /* ------------- hook thông báo realtime (đặt ở App cũng được) ---------------- */
+        useNotificationSocket(userId);   // 🔥 chỉ 1 dòng, tự subscribe /queue/notifications
+
+
     const handleLike = async () => {
         if (!userId) {
             alert("Bạn cần đăng nhập để thích bài viết.");
@@ -71,6 +99,7 @@ const Post = ({ post }) => {
             console.error("Lỗi khi gửi yêu cầu thích bài viết:", error);
         }
     };
+
 
     return (
         <div className={cx("post")}>

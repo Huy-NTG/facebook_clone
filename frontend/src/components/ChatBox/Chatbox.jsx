@@ -23,8 +23,10 @@ const ChatBox = ({ friend, onClose, position, totalChats }) => {
   useEffect(() => {
     console.log('Đang cố gắng kết nối đến WebSocket...', currentUser?.avatarUrl);
     const socketFactory = () => new SockJS('http://localhost:8080/ws', null, {
-      withCredentials: true,
-    });
+
+      withCredentials: true
+    }); // kết nối thất bại
+  
     const client = new Client({
       brokerURL: 'ws://localhost:8080/ws',
       reconnectDelay: 5000,

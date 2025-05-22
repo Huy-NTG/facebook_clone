@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.CommentRequest;
@@ -15,7 +16,7 @@ import com.example.backend.model.User;
 import com.example.backend.repositories.CommentRepository;
 import com.example.backend.repositories.PostRepository;
 import com.example.backend.repositories.UserRepository;
-
+import com.example.backend.dto.NotificationDTO;
 @Service
 public class CommentService {
     @Autowired
@@ -24,6 +25,8 @@ public class CommentService {
     private UserRepository userRepository;  // ✅ Thêm UserRepository để lấy user
     @Autowired
     private PostRepository postRepository;  // ✅ Thêm PostRepository để lấy post
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;  // Để gửi thông báo realtime
     // Thêm bình luận mới
     public CommentResponse addComment(CommentRequest request) {
         Post post = postRepository.findById(request.getPostId()).orElseThrow(() -> new RuntimeException("Post not found"));
@@ -36,7 +39,18 @@ public class CommentService {
         
         comment = commentRepository.save(comment);
 
+        if (!user.getId().equals(post.getAuthor().getId())) {
+            NotificationDTO noti = NotificationDTO.comment(user, post);
+            messagingTemplate.convertAndSendToUser(
+                    post.getAuthor().getId().toString(),
+                    "/queue/notifications",
+                    noti
+            );
+        }
+        
+
         return new CommentResponse(comment);
+
     }
 
      // Lấy danh sách bình luận theo bài viết

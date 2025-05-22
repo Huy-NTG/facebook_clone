@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Optional;
+// import java.util.Optional;
 @Service
 public class PostService {
     private final PostRepository postRepository;
@@ -25,131 +25,87 @@ public class PostService {
     }
 
     public List<PostResponse> getAllPostsWithUser() {
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        
-        return posts.stream().map(post -> {
-            User user = userRepository.findById(post.getUserId()).orElse(null);
-            return new PostResponse(
-                post.getId(),
-                post.getUserId(),
-                user != null ? user.getFullName() : "Người dùng không tồn tại",
-                user != null ? user.getAvatarUrl() : null,
-                post.getContent(),
-                post.getImageUrl(),
-                post.getStatus(), // Include status
-                post.getCreatedAt()
-            );
-        }).collect(Collectors.toList());
+        return postRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .map(this::convertToPostResponse)
+                .collect(Collectors.toList());
     }
 
     public Post createPost(Long userId, String content, MultipartFile image) throws Exception {
-        String imageUrl = null;
+        User user = userRepository.findById(userId)
+                                  .orElseThrow(() -> new RuntimeException("User not found"));
 
+        String imageUrl = null;
         if (image != null && !image.isEmpty()) {
-            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-            fileName = fileName.replaceAll("\\s+", "_");
-            
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename().replaceAll("\\s+", "_");
             Path filePath = Paths.get("uploads").resolve(fileName);
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, image.getBytes());
-            
             imageUrl = fileName;
         }
-        
+
         Post post = new Post();
-        post.setUserId(userId);
+        post.setAuthor(user);            // ✅
         post.setContent(content);
         post.setImageUrl(imageUrl);
-        post.setStatus(true); // Explicitly set default status
+        post.setStatus(true);
         return postRepository.save(post);
     }
 
     public List<PostResponse> getPostsByUserId(Long userId) {
-        List<Post> posts = postRepository.findByUserId(userId);
-    
-        return posts.stream().map(post -> {
-            User user = userRepository.findById(post.getUserId()).orElse(null);
-            return new PostResponse(
-                post.getId(),
-                post.getUserId(),
-                user != null ? user.getFullName() : "Người dùng không tồn tại",
-                user != null ? user.getAvatarUrl() : null,
-                post.getContent(),
-                post.getImageUrl(),
-                post.getStatus(), // Include status
-                post.getCreatedAt()
-            );
-        }).collect(Collectors.toList());
+        return postRepository.findByAuthor_Id(userId)   //  ← đổi ở đây
+                             .stream()
+                             .map(this::convertToPostResponse)
+                             .collect(Collectors.toList());
     }
+    
 
     // New method to toggle post status
     public String togglePostStatus(Long postId, Boolean status) {
-        try {
-            if (postId == null || status == null) {
-                return "postId hoặc status không được null!";
-            }
-            Optional<Post> optionalPost = postRepository.findById(postId);
-            if (optionalPost.isEmpty()) {
-                return "Bài viết không tồn tại!";
-            }
-            Post post = optionalPost.get();
-            post.setStatus(status);
-            postRepository.save(post);
-            return "Cập nhật trạng thái thành công!";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Lỗi khi cập nhật trạng thái: " + e.getClass().getName() + ": " + e.getMessage();
-        }
+        if (postId == null || status == null) return "postId hoặc status không được null!";
+        return postRepository.findById(postId)
+                .map(p -> { p.setStatus(status); postRepository.save(p); return "Cập nhật trạng thái thành công!"; })
+                .orElse("Bài viết không tồn tại!");
     }
+
     public String updatePost(PostUpdateDTO postDTO) {
-    try {
-        Optional<Post> optionalPost = postRepository.findById(postDTO.getId());
-        if (optionalPost.isEmpty()) {
-            return "Bài viết không tồn tại!";
-        }
-        Post post = optionalPost.get();
-        if (postDTO.getStatus() != null) {
-            post.setStatus(postDTO.getStatus());
-        }
-        postRepository.save(post);
-        return "Cập nhật trạng thái thành công!";
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Lỗi khi cập nhật trạng thái: " + e.getMessage();
-        }
+        return postRepository.findById(postDTO.getId())
+                .map(p -> {
+                    if (postDTO.getStatus() != null) p.setStatus(postDTO.getStatus());
+                    postRepository.save(p);
+                    return "Cập nhật trạng thái thành công!";
+                })
+                .orElse("Bài viết không tồn tại!");
     }
+
     // hàm tìm kiếm bài viết theo nội dung
     public List<PostResponse> searchPostsByContent(String keyword) {
-        List<Post> posts = postRepository.findByContentContainingIgnoreCase(keyword);
-    
-        return posts.stream().map(post -> {
-            User user = userRepository.findById(post.getUserId()).orElse(null);
-            return new PostResponse(
+        return postRepository.findByContentContainingIgnoreCase(keyword)
+                .stream()
+                .map(this::convertToPostResponse)
+                .collect(Collectors.toList());
+    }
+    // định dạng trả về
+    public PostResponse convertToPostResponse(Post post) {
+        User author = post.getAuthor();                     // ✅
+        return new PostResponse(
                 post.getId(),
-                post.getUserId(),
-                user != null ? user.getFullName() : "Người dùng không tồn tại",
-                user != null ? user.getAvatarUrl() : null,
+                author != null ? author.getId() : null,
+                author != null ? author.getFullName() : "Người dùng không tồn tại",
+                author != null ? author.getAvatarUrl() : null,
                 post.getContent(),
                 post.getImageUrl(),
                 post.getStatus(),
                 post.getCreatedAt()
-            );
-        }).collect(Collectors.toList());
-    }
-    // hàm tìm kiếm bài viết theo id
-    public PostResponse convertToPostResponse(Post post) {
-        User user = userRepository.findById(post.getUserId()).orElse(null);
-        return new PostResponse(
-            post.getId(),
-            post.getUserId(),
-            user != null ? user.getFullName() : "Người dùng không tồn tại",
-            user != null ? user.getAvatarUrl() : null,
-            post.getContent(),
-            post.getImageUrl(),
-            post.getStatus(),
-            post.getCreatedAt()
         );
     }
+    // hàm tìm kiếm bài viết theo id
+    public PostResponse getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy bài viết với ID: " + id));
+        return convertToPostResponse(post);
+    }
+    
     
     
 }
