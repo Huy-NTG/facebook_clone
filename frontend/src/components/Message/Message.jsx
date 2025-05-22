@@ -7,7 +7,7 @@ import styles from './Message.module.scss';
 
 const cx = classNames.bind(styles);
 
-const Message = ({ sender, content, timestamp, isOwnMessage, avatarUrl }) => {
+const Message = ({ sender, content, timestamp, isOwnMessage, avatarUrl, isSystemMessage }) => {
   const formatTimestamp = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -15,13 +15,13 @@ const Message = ({ sender, content, timestamp, isOwnMessage, avatarUrl }) => {
 
   return (
     <div className={cx('message', { own: isOwnMessage })}>
-      {!isOwnMessage && (
+      {!isOwnMessage && !isSystemMessage && avatarUrl && (
         <div className={cx('avatar')} style={{ backgroundImage: `url(${avatarUrl})` }}></div>
       )}
       <div className={cx('message-content')}>
-        {!isOwnMessage && <span className={cx('sender')}>{sender}</span>}
+        {!isOwnMessage && !isSystemMessage && <span className={cx('sender')}>{sender}</span>}
         <p>{content}</p>
-        {timestamp && (
+        {timestamp && !isSystemMessage && (
           <span className={cx('timestamp')}>
             {formatTimestamp(timestamp)}
           </span>

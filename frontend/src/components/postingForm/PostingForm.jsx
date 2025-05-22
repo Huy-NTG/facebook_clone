@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./PostingForm.module.scss";
 import { FaUserCircle } from "react-icons/fa"; // Import icon mặc định
@@ -10,6 +11,7 @@ import PostModal from "../postModal/PostModal";
 // eslint-disable-next-line react/prop-types
 const PostingForm = ({ user, variant = "home" }) => {
     const [showForm, setShowForm] = useState(false); // Trạng thái hiển thị form
+    const navigate = useNavigate();
     
     const [currentUser, setCurrentUser] = useState(null);
 
@@ -32,6 +34,8 @@ const PostingForm = ({ user, variant = "home" }) => {
                                 e.target.onerror = null;
                                 e.target.src = "/assets/img/icons8-user-default-64.png"; // Ảnh mặc định
                             }}
+                            onClick={() => navigate(`/profile/${currentUser.id}`)}
+                            style={{ cursor: "pointer" }}
                         />
                     ) : (
                         <FaUserCircle className={cx("default-avatar")} size={40} />

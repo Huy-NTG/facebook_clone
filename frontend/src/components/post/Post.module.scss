@@ -17,7 +17,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubun
   box-shadow: 0 4px 12px $shadow-color; // Softer, deeper shadow
   margin-bottom: 20px; // More space between posts
   width: 100%;
-  max-width: 600px; // Constrain width for larger screens
+  width: 600px; // Constrain width for larger screens
   margin-left: auto;
   margin-right: auto; // Center posts
   font-family: $font-stack;
@@ -152,6 +152,7 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubun
   .post {
     padding: 12px;
     margin-bottom: 16px;
+    width: 100%; // Full width on smaller screens
 
     .post-header {
       .avatar {

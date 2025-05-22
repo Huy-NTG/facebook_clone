@@ -2,12 +2,12 @@ $message-border-radius: 18px;
 $own-message-bg: #0084ff;
 $friend-message-bg: #e4e6eb;
 $shadow-color: rgba(0, 0, 0, 0.1);
+$system-message-bg: #d1f1f0; // Light teal background like in the image
 
 .message {
   display: flex;
   align-items: flex-start;
   margin: 4px 8px;
-//   max-width: 80%;
   gap: 8px;
 
   &.own {
@@ -22,10 +22,42 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   }
 
   &:not(.own) {
-    .message-content {
-      background: $friend-message-bg;
-      color: #1c1e21;
-      border-radius: $message-border-radius $message-border-radius $message-border-radius 4px;
+    &.system {
+      justify-content: center;
+      margin: 8px 0;
+
+      .message-content {
+        background: $system-message-bg;
+        color: #1c1e21;
+        font-style: italic;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 10px;
+        box-shadow: none;
+        text-align: center;
+        max-width: 80%;
+
+        .sender {
+          display: none; // Hide sender name for system messages
+        }
+
+        p {
+          margin: 0;
+          font-size: inherit;
+        }
+
+        .timestamp {
+          display: none; // Hide timestamp for system messages
+        }
+      }
+    }
+
+    &:not(.system) {
+      .message-content {
+        background: $friend-message-bg;
+        color: #1c1e21;
+        border-radius: $message-border-radius $message-border-radius $message-border-radius 4px;
+      }
     }
   }
 
@@ -79,9 +111,15 @@ $shadow-color: rgba(0, 0, 0, 0.1);
     &.own .message-content {
       background: #005bb5;
     }
-    &:not(.own) .message-content {
-      background: #3a3b3c;
-      color: #e4e6eb;
+    &:not(.own) {
+      &.system .message-content {
+        background: #2a5e5d; // Darker teal for dark mode
+        color: #e4e6eb;
+      }
+      &:not(.system) .message-content {
+        background: #3a3b3c;
+        color: #e4e6eb;
+      }
     }
     .message-content .sender {
       color: #b0b3b8;
@@ -93,6 +131,15 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   .message {
     margin: 4px 6px;
     max-width: 85%;
+
+    &.system {
+      margin: 6px 0;
+
+      .message-content {
+        font-size: 11px;
+        padding: 3px 10px;
+      }
+    }
 
     .avatar {
       width: 28px;

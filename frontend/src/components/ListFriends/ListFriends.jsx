@@ -5,7 +5,7 @@ import styles from "./ListFriend.module.scss";
 
 const cx = classNames.bind(styles);
 
-const FriendList = () => {
+const FriendList = ({ onOpenChat }) => {  // Nhận prop onOpenChat từ component cha
   const [friends, setFriends] = useState([]);
   
   // Lấy user từ sessionStorage
@@ -28,7 +28,13 @@ const FriendList = () => {
     <div className={cx("friend-list")}>
       <h2>Người liên hệ</h2>
       {friends.length > 0 ? (
-        friends.map((friend) => <Friend key={friend.id} friend={friend} />)
+        friends.map((friend) => (
+          <Friend 
+            key={friend.id} 
+            friend={friend} 
+            onClick={onOpenChat}  // Truyền hàm openChat cho sự kiện onClick
+          />
+        ))
       ) : (
         <p>Chưa có bạn bè nào</p>
       )}

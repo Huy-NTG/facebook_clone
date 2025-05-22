@@ -31,3 +31,19 @@
         //border: solid 1px red;
     }
 }
+@media screen and (max-width: 1024px) {
+    .container-content {
+        flex-direction: column;
+        align-items: center;
+        .container-post {
+            width: 100%;
+            margin-left: 0;
+        }
+        .container-friends {
+            width: 100%;
+            position: static;
+            margin-top: 20px;
+        }
+    }
+    
+}

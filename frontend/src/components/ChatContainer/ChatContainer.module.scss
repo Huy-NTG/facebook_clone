@@ -1,0 +1,73 @@
+.chat-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  z-index: 1000;
+  pointer-events: none; // Let clicks pass through the container itself
+  
+  // Each chat box inside the container needs pointer events
+  & > * {
+    pointer-events: auto;
+  }
+  
+  // Special handling for when we have too many chat boxes
+  &.stacked-chats {
+    // Default stacked state - only the first chatbox is fully visible
+    & > *:not(:first-child) {
+      transform: translateX(290px); // Push all but first chat to the right
+      transition: transform 0.3s ease;
+    }
+    
+    // On hover, fan out the chat boxes
+    &:hover {
+      & > * {
+        transform: translateX(0) !important;
+      }
+    }
+    
+    // When hovering a specific chat, bring it to front
+    & > *:hover {
+      z-index: 1010 !important;
+    }
+  }
+}
+
+// Media queries for responsiveness
+@media (max-width: 1024px) {
+  .chat-container {
+    &.stacked-chats {
+      & > *:not(:first-child) {
+        transform: translateX(260px);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+    &.stacked-chats {
+      & > *:not(:first-child) {
+        transform: translateX(240px);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-container {
+    &.stacked-chats {
+      & > *:not(:first-child) {
+        transform: translateX(220px);
+      }
+      
+      // Show only one chat on mobile by default
+      & > *:not(:first-child) {
+        transform: translateX(260px);
+      }
+    }
+  }
+}
