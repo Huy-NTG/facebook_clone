@@ -6,6 +6,7 @@ import FriendPage from "./pages/friendsPage/friendPage.jsx";
 import Profilepage from "./pages/profilePage/ProfilePage.jsx";
 import AdminPage from "./pages/adminPage/adminPage.jsx";
 import SearchPage from "./pages/searchPage/searchPage.jsx";
+import PostDetail from "./pages/PostDetail/PostDetail.jsx"; // Import component PostDetail
 function App() {
   return (
     <Router>
@@ -22,6 +23,8 @@ function App() {
         <Route path="/adminpage/*" element={<AdminPage />} />
         {/* Thêm các route khác nếu cần */}
         <Route path="/search/:keyword" element={<SearchPage />} />
+        <Route path="/post/:id" element={<PostDetail />} />
+
       </Routes>
     </Router>
   );

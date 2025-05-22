@@ -74,7 +74,7 @@ const ChatBox = ({ friend, onClose }) => {
   
     const socketFactory = () => new SockJS('http://localhost:8080/ws', null, {
       withCredentials: true
-    });
+    }); // kết nối thất bại
     
     const client = new Client({
       brokerURL: 'ws://localhost:8080/ws', // kết nối thành công

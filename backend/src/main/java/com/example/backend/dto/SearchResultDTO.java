@@ -1,7 +1,7 @@
 package com.example.backend.dto;
 
 
-import com.example.backend.dto.UserResponseDTO;
+//import com.example.backend.dto.UserResponseDTO;
 import java.util.List;
 public class SearchResultDTO {
     private List<UserResponseDTO> users;

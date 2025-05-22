@@ -106,5 +106,18 @@ public class PostController {
         List<PostResponse> results = postService.searchPostsByContent(keyword);
         return ResponseEntity.ok(results);
     }
+    // controller to get post by id
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponse> getPostById(@PathVariable Long id) {
+        try {
+            PostResponse post = postService.getPostById(id);
+            return ResponseEntity.ok(post);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(null);
+        }
+    }
+
+
 
 }
