@@ -33,9 +33,10 @@ public class ChatController {
     public ChatMessage join(String username) {
         // Gửi tin nhắn đến client tại kênh /topic/messages/{receiver}
         ChatMessage newMessage = new ChatMessage();
-        newMessage.setContent(username + " has joined the chat");
-        newMessage.setSender("SYSTEM");
-        newMessage.setType("JOIN");
+        // tắt thông báo từ hệ thống
+        // newMessage.setContent(username + " has joined the chat");
+        // newMessage.setSender("SYSTEM");
+        // newMessage.setType("JOIN");
         return newMessage;
     }
 }

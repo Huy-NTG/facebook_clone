@@ -3,8 +3,10 @@ package com.example.backend.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.backend.dto.NotificationDTO;
 import com.example.backend.model.Like;
 import com.example.backend.model.Post;
 import com.example.backend.model.User;
@@ -12,7 +14,10 @@ import com.example.backend.repositories.LikeRepository;
 import com.example.backend.repositories.PostRepository;
 import com.example.backend.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor        // dùng Lombok tạo constructor cho field final
 public class LikeService {
 
     @Autowired
@@ -23,6 +28,8 @@ public class LikeService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private final SimpMessagingTemplate messagingTemplate;   // <- inject
 
     public String toggleLike(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
@@ -41,6 +48,18 @@ public class LikeService {
             like.setPost(post);
             like.setUser(user);
             likeRepository.save(like);
+            /* ----------  GỬI THÔNG BÁO REALTIME ---------- */
+        if (!userId.equals(post.getAuthor().getId())) {              // tự like thì khỏi báo
+            NotificationDTO noti = NotificationDTO.like(user, post); // factory tiện dụng
+            // ① Lưu DB nếu cần
+            // notificationRepository.save(notiEntity);
+            // ② Push tới tác giả bài viết
+            messagingTemplate.convertAndSendToUser(
+                    post.getAuthor().getId().toString(),
+                    "/queue/notifications",
+                    noti
+            );
+        }
             return "Liked";
         }
     }
