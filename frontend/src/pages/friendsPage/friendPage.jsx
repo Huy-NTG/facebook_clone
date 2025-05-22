@@ -1,22 +1,35 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import Navbar from "../../components/navigation/Navigation";
 import FriendRequestList from "../../components/friendRequestList/FriendRequestList";
 const FriendPage = () => {
-    // eslint-disable-next-line no-unused-vars
     const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      // Lấy dữ liệu người dùng từ sessionStorage
-      const storedUser = sessionStorage.getItem("user");
-  
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
-        navigate("/"); // Nếu chưa đăng nhập, quay lại trang Login
-      }
-    }, [navigate]);
+  const [loggedInUser, setLoggedInUser] = useState(null); // ✅ thêm state
+  const navigate = useNavigate();
+  const { id: paramId } = useParams(); // lấy id từ URL nếu có
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (!storedUser) {
+      navigate("/");
+      return;
+    }
+    const parsedUser = JSON.parse(storedUser);
+    setLoggedInUser(parsedUser); // ✅ lưu user đăng nhập vào state
+    const targetUserId = paramId || parsedUser.id;
+    axios
+      .get(`http://localhost:8080/auth/${targetUserId}`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.error("Không thể lấy thông tin người dùng", err);
+        navigate("/");
+      });
+  }, [navigate, paramId]);
+  if (!user || !loggedInUser) return <p>Đang tải dữ liệu...</p>;
+
     return ( 
         <>
         {/* Navbar */}

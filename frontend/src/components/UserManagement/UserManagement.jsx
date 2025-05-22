@@ -240,17 +240,18 @@ const UserManagement = () => {
                           className={styles.viewIcon}
                           onClick={() => handleViewDetails(user)}
                         />
-                        {user.status === true ? (
-                          <LockOpen
+                        {user.role === 'ADMIN' ? "" : (user.status === true ? (
+                            <LockOpen
                             className={styles.viewIcon}
                             onClick={() => handleToggleStatus(user)}
-                          />
+                            />
                         ) : (
-                          <LockKeyhole
+                            <LockKeyhole
                             className={styles.viewIconLock}
                             onClick={() => handleToggleStatus(user)}
-                          />
-                        )}
+                            />
+                        ))}
+                        
                       </td>
                     </tr>
                   ))
@@ -341,14 +342,15 @@ const UserManagement = () => {
                     </div>
                   </div>
                   <div className={styles.modalActions}>
-                    <button
+                    {selectedUser.role === 'ADMIN' ? "" : (<button
                       onClick={() => handleToggleStatus(selectedUser)}
                       className={`${styles.statusToggleButton} ${
                         selectedUser.status === true ? styles.lockButton : styles.unlockButton
                       }`}
                     >
                       {selectedUser.status === true ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
-                    </button>
+                    </button>)}
+                    
                     <button
                       onClick={() => setIsModalOpen(false)}
                       className={styles.closeButton}

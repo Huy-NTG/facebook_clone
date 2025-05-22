@@ -3,6 +3,7 @@ import axios from "axios";
 import classNames from "classnames/bind";
 import styles from "./CommentSection.module.scss";
 import Comment from "../Comment/Comment";
+import { useRef } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -10,6 +11,7 @@ const cx = classNames.bind(styles);
 const CommentSection = ({ postId, onClose }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const inputRef = useRef(null);
     // 🟢 Lấy dữ liệu user từ sessionStorage
     const user = JSON.parse(sessionStorage.getItem("user"));
     useEffect(() => {
@@ -33,10 +35,14 @@ const CommentSection = ({ postId, onClose }) => {
         .then(response => {
             setComments([...comments, response.data]);
             setNewComment("");
+            inputRef.current?.focus();
         })
         .catch(error => console.error("Lỗi gửi bình luận:", error));
     };
 
+    useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
     return (
         <div className={cx("modal-overlay")}>
             <div className={cx("modal")}>
@@ -59,6 +65,8 @@ const CommentSection = ({ postId, onClose }) => {
                         placeholder="Viết bình luận..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
+                        onKeyPress={(e) => e.key === "Enter" && handleAddComment()}
+                        ref={inputRef}
                     />
                     <button onClick={handleAddComment}>Gửi</button>
                 </div>

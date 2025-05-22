@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import DehazeOutlinedIcon from '@mui/icons-material/DehazeOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
-import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
-import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 import styles from './Siderbar.module.scss';
 
 export default function Siderbar() {
     const [isOpen, setIsOpen] = useState(true);
+    const navigate = useNavigate();
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
-
-    const closeSidebar = () => {
-        setIsOpen(false);
+    const handleLogout = () => {
+        sessionStorage.removeItem("user"); // Xóa user khỏi sessionStorage
+        navigate("/login"); // Chuyển về trang login
     };
 
     return (
@@ -58,6 +58,9 @@ export default function Siderbar() {
                 >
                     <PeopleAltOutlinedIcon /> {isOpen ? "Quản lý người dùng" : ''}
                 </NavLink>
+                <button className={styles.logoutButton} onClick={handleLogout}>
+                    <LogoutIcon /> {isOpen ? "Đăng xuất" : ''}
+                </button>
             </div>
         </div>
     );

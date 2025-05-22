@@ -34,6 +34,7 @@
     .comments-list {
         max-height: 300px;
         overflow-y: auto;
+        margin: 20px 0;
     }
     .comment-input {
         display: flex;
@@ -43,6 +44,7 @@
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            outline: none;
         }
         button {
             margin-left: 5px;

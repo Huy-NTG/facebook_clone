@@ -1,26 +1,34 @@
 @import url("../globalStyles/GlobalStyles.module.scss");
+
 .container-posting-form {
     width: 600px;
     padding: 10px;
     background-color: var(--backgroundPostColor);
     border-radius: 10px;
+    background-color: #fff;
+    padding-bottom: 10px;
+
     .posting-form {
         display: flex;
         align-items: center;
         justify-content: flex-start; // Đẩy nội dung về bên trái
     }
+
     .posting-form-left {
         width: 50px; // Giữ kích thước cố định
         display: flex;
         justify-content: flex-start; // Căn về trái
         align-items: center;
         margin-right: 10px; // Tạo khoảng cách giữa avatar và textarea
+
         img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             object-fit: cover;
+            align-items: center;
         }
+
         .default-avatar {
             width: 40px;
             height: 40px;
@@ -28,44 +36,62 @@
             background-color: var(--background);
         }
     }
+
     .posting-form-right {
         flex: 1; // Đảm bảo textarea chiếm toàn bộ phần còn lại
-        .posting-btn{
+        margin-bottom: 10px;
+        margin-top: 10px;
+
+        .posting-btn {
             width: 100%;
             height: 40px;
             border-radius: 20px;
-            background-color: #333334;
+            background-color: #dddddd;
             border: none;
             text-align: left;
             padding-left: 10px;
-            color: var(--whitecolor);
-            :hover{
+            // color: var(--whitecolor);
+            color: rgb(62, 61, 61);
+            font-weight: 500;
+
+            :hover {
                 opacity: 0.4;
             }
         }
 
     }
-    .posting-form-footer{
+
+    .posting-form-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-top: 10px;
-        button{
+
+        button {
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--backgroundPostColor);
+            // background-color: var(--backgroundPostColor);
+            background-color: #ffffff;
             border: none;
-            color: var(--whitecolor);
+            // color: var(--whitecolor);
+            color: rgb(62, 61, 61);
+            font-weight: 500;
             padding: 5px 10px;
             border-radius: 5px;
         }
+
+        button:hover {
+            background-color: #dddddd;
+            animation-duration: 5s;
+        }
     }
+
     &.home {
         // style riêng cho Home
     }
-    
+
     &.profile {
-       width: 100%;
+        width: 100%;
     }
 }

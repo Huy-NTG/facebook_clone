@@ -7,17 +7,26 @@ import styles from './Message.module.scss';
 
 const cx = classNames.bind(styles);
 
-const Message = ({ sender, content, isOwnMessage, imaStringe  }) => {
+const Message = ({ sender, content, timestamp, isOwnMessage, avatarUrl, isSystemMessage }) => {
+  const formatTimestamp = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
     <div className={cx('message', { own: isOwnMessage })}>
-      <img
-      src={`http://localhost:8080${imaStringe}`}
-      alt="avatar"
-      className={cx('avatar')}
-    />
-
-      <span>{sender}</span>
-      <p>{content}</p>
+      {!isOwnMessage && !isSystemMessage && avatarUrl && (
+        <div className={cx('avatar')} style={{ backgroundImage: `url(${avatarUrl})` }}></div>
+      )}
+      <div className={cx('message-content')}>
+        {!isOwnMessage && !isSystemMessage && <span className={cx('sender')}>{sender}</span>}
+        <p>{content}</p>
+        {timestamp && !isSystemMessage && (
+          <span className={cx('timestamp')}>
+            {formatTimestamp(timestamp)}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

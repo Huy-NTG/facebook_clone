@@ -1,14 +1,97 @@
 @import url('../../components/globalStyles/GlobalStyles.module.scss');
-.friend-request-list{
-    width: 100%;
-    margin-top: 20px;
-    h2{
-      margin-left: 10px;
+
+.friend-request-list {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1c1e21;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dadde1;
+  }
+
+  .friend-request-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 5 columns for desktop
+    gap: 15px;
+    padding: 10px;
+  }
+
+  p {
+    color: #606770;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px 0;
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .friend-request-list {
+    .friend-request-container {
+      grid-template-columns: repeat(3, 1fr); // 3 columns for tablets
     }
-    .friend-request-container{
-      display: grid;
-      grid-template-columns: repeat(5, 1fr); // 5 cột trên mỗi hàng
-      gap: 15px;
-      padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .friend-request-list {
+    padding: 0 12px;
+    margin: 10px auto;
+
+    h2 {
+      font-size: 20px;
     }
+
+    .friend-request-container {
+      grid-template-columns: repeat(2, 1fr); // 2 columns for smaller tablets
+      gap: 10px;
+    }
+
+  }
+}
+
+@media (max-width: 480px) {
+  .friend-request-list {
+    padding: 0 8px;
+
+    h2 {
+      font-size: 18px;
+    }
+
+    .friend-request-container {
+      grid-template-columns: 1fr; // 1 column for mobile
+      gap: 8px;
+    }
+
+    .friend-request {
+      .avatar {
+        width: 50px;
+        height: 50px;
+      }
+
+      .request-info {
+        p:first-child {
+          font-size: 13px;
+        }
+
+        p:last-child {
+          font-size: 10px;
+        }
+      }
+
+      .request-actions {
+        .accept-btn,
+        .reject-btn {
+          font-size: 12px;
+          padding: 5px;
+        }
+      }
+    }
+  }
 }
