@@ -1,24 +1,25 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.UserRegisterDTO;
-import com.example.backend.dto.UserUpdateDTO;
-import com.example.backend.model.User;
-import com.example.backend.repositories.UserRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Optional;
-import java.util.UUID;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.nio.file.Path;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.backend.dto.UserRegisterDTO;
+import com.example.backend.dto.UserUpdateDTO;
+import com.example.backend.model.User;
+import com.example.backend.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -56,18 +57,30 @@ public class UserService {
     }
     // // Đăng nhập
     public Map<String, Object> login(String email, String rawPassword) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
         Map<String, Object> response = new HashMap<>();
 
-        if (user.isPresent() && passwordEncoder.matches(rawPassword, user.get().getPassword())) {
-            response.put("message", "Đăng nhập thành công!");
-            response.put("id", user.get().getId());
-            response.put("username", user.get().getUsername());
-            response.put("fullName", user.get().getFullName());
-            response.put("email", user.get().getEmail());
-            response.put("avatarUrl", user.get().getAvatarUrl());
-            response.put("role", user.get().getRole().name()); // 👈 Thêm dòng này
-            return response;
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                // Check user status
+                // For a primitive boolean 'status', it cannot be null.
+                // Use isStatus() which is the standard Lombok getter for boolean.
+                if (!user.isStatus()) { // If status is false, it means banned/inactive
+                    response.put("error", "Tài khoản của bạn đã bị khóa hoặc chưa được kích hoạt.");
+                    return response;
+                }
+
+                // Proceed with successful login
+                response.put("message", "Đăng nhập thành công!");
+                response.put("id", user.getId());
+                response.put("username", user.getUsername());
+                response.put("fullName", user.getFullName());
+                response.put("email", user.getEmail());
+                response.put("avatarUrl", user.getAvatarUrl());
+                response.put("role", user.getRole().name());
+                return response;
+            }
         }
 
         response.put("error", "Sai tên đăng nhập hoặc mật khẩu");

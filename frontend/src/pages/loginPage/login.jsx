@@ -34,7 +34,7 @@ const Login = () => {
       }
   
     } catch (error) {
-      alert(error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.");
+      alert(error.response?.data?.error || error.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
