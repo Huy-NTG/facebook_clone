@@ -85,20 +85,7 @@ const Post = ({ post }) => {
         useNotificationSocket(userId);   // 🔥 chỉ 1 dòng, tự subscribe /queue/notifications
 
 
-    const handleLike = async () => {
-        if (!userId) {
-            alert("Bạn cần đăng nhập để thích bài viết.");
-            return;
-        }
-        try {
-            await axios.post(`http://localhost:8080/api/likes/toggle?postId=${post.id}&userId=${userId}`);
-            // Refresh like count and liked status
-            await fetchInteractionData();
-            await checkIsLiked();
-        } catch (error) {
-            console.error("Lỗi khi gửi yêu cầu thích bài viết:", error);
-        }
-    };
+    
 
 
     return (

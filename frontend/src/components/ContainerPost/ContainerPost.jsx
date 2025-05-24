@@ -33,7 +33,8 @@ const PostList = ({ userId }) => {
                // ...existing code...
                 <div className={cx("post-list")}>
                             {posts.length > 0 ? (
-                                posts.sort((a, b) => b.id - a.id).filter(post => post.status === true).map(post => <Post key={post.id} post={post} />)
+                                 posts.sort((a, b) => b.id - a.id).filter(post => post.status === true).map(post => <Post key={post.id} post={post} />) // dòng bị lỗi do châu thành
+                                //posts.map(post => <Post key={post.id} post={post} />) // dòng mò lại trong commit
                             ) : (
                                 <p>Chưa có bài viết nào.</p>
                             )}
